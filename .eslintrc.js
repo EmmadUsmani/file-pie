@@ -3,7 +3,11 @@ module.exports = {
   parser: "@typescript-eslint/parser",
   parserOptions: {
     tsconfigRootDir: __dirname,
-    project: ["client/tsconfig.json", "shared/tsconfig.json"],
+    project: [
+      "client/tsconfig.json",
+      "shared/tsconfig.json",
+      "server/tsconfig.json",
+    ],
   },
   plugins: ["@typescript-eslint"],
   extends: [
@@ -20,6 +24,7 @@ module.exports = {
         project: [
           `${__dirname}/client/tsconfig.json`,
           `${__dirname}/shared/tsconfig.json`,
+          `${__dirname}/server/tsconfig.json`,
         ],
       },
       node: {
