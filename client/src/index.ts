@@ -1,3 +1,4 @@
+import { ServerEvent } from "@webrtc-file-transfer/shared"
 import { io } from "socket.io-client"
 
 import { rtcConfig } from "./constants"
@@ -9,12 +10,13 @@ fileInput?.addEventListener("change", handleFileInputChange)
 
 function handleFileInputChange() {
   if (fileInput && fileInput.files) {
-    console.log("Create Socket.io room in signaling server") // TODO: create room
-    handleReceiverJoin()
+    socket.emit(ServerEvent.CreateRoom)
   } else {
     console.log("no file chosen")
   }
 }
+
+socket.on(ServerEvent.RoomCreated, () => console.log("room created"))
 
 // TOOD: listen for peer join
 function handleReceiverJoin() {

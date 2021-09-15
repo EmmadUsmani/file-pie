@@ -2,7 +2,9 @@ import { createServer } from "http"
 import * as path from "path"
 
 import express from "express"
-import { Server, Socket } from "socket.io"
+import { Server } from "socket.io"
+
+import { registerHandlers } from "./handlers"
 
 const app = express()
 const httpServer = createServer(app)
@@ -31,9 +33,7 @@ const io = new Server(
     : {}
 )
 
-io.on("connection", (socket: Socket) => {
-  console.log(socket.id)
-})
+registerHandlers(io)
 
 const port = process.env.PORT ? +process.env.PORT : 3000
 
