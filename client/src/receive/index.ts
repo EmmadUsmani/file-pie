@@ -1,4 +1,4 @@
-import { rtcConfig } from "./constants"
+import { rtcConfig } from "../shared"
 
 const peerConnection = new RTCPeerConnection(rtcConfig)
 // TODO: create dataChannel

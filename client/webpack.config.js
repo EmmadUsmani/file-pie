@@ -3,8 +3,8 @@ const HTMLWebpackPlugin = require("html-webpack-plugin")
 
 var config = {
   entry: {
-    main: "./src/index.ts",
-    download: "./src/download.ts",
+    send: "./src/send/index.ts",
+    receive: "./src/receive/index.ts",
   },
   devServer: {
     static: "./build",
@@ -34,13 +34,13 @@ var config = {
   plugins: [
     new HTMLWebpackPlugin({
       filename: "index.html",
-      template: "src/templates/index.html",
-      chunks: ["main"],
+      template: "src/send/index.html",
+      chunks: ["send"],
     }),
     new HTMLWebpackPlugin({
-      filename: "download.html",
-      template: "src/templates/download.html",
-      chunks: ["download"],
+      filename: "receive.html",
+      template: "src/receive/index.html",
+      chunks: ["receive"],
     }),
   ],
 }
