@@ -4,6 +4,7 @@
   "license": "GPL-3.0",
   "scripts": {
     "dev": "webpack serve --mode=development --open",
+    "clean": "rm -rf build",
     "build": "webpack --mode=production"
   },
   "dependencies": {

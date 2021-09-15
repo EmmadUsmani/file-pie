@@ -6,6 +6,7 @@
   "license": "GPL-3.0",
   "scripts": {
     "dev": "tsc --w",
+    "clean": "rm -rf build",
     "build": "tsc"
   },
   "devDependencies": {

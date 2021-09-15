@@ -4,6 +4,7 @@
   "license": "GPL-3.0",
   "private": true,
   "scripts": {
+    "clean": "rm -rf build",
     "build": "tsc",
     "start": "(NODE_ENV=production node build/index.js)"
   },
