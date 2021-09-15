@@ -1,7 +1,10 @@
+import { io } from "socket.io-client"
+
 import { rtcConfig } from "./constants"
 
-const fileInput = document.querySelector<HTMLInputElement>("input#fileInput")
+const socket = io("/")
 
+const fileInput = document.querySelector<HTMLInputElement>("input#fileInput")
 fileInput?.addEventListener("change", handleFileInputChange)
 
 function handleFileInputChange() {
@@ -24,7 +27,6 @@ class Receiver {
 
   constructor() {
     this.peerConnection = new RTCPeerConnection(rtcConfig)
-    // TODO: save socket.io peer's id to send messages only to them
     // TODO: create dataChannel & listen for 'open' event
     // TODO: initialize listeners
     void this.sendOffer()

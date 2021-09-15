@@ -10,7 +10,8 @@
     "start": "(NODE_ENV=production node build/index.js)"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "socket.io": "^4.2.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",

@@ -1,8 +1,11 @@
+import { createServer } from "http"
 import * as path from "path"
 
 import express from "express"
+import { Server, Socket } from "socket.io"
 
 const app = express()
+const httpServer = createServer(app)
 
 // serve client in prod
 if (process.env.NODE_ENV === "production") {
@@ -16,8 +19,24 @@ if (process.env.NODE_ENV === "production") {
   })
 }
 
+const io = new Server(
+  httpServer,
+  process.env.NODE_ENV === "development" // allow cors in dev
+    ? {
+        cors: {
+          origin: "http://localhost:8080",
+          methods: ["GET", "POST"],
+        },
+      }
+    : {}
+)
+
+io.on("connection", (socket: Socket) => {
+  console.log(socket.id)
+})
+
 const port = process.env.PORT ? +process.env.PORT : 3000
 
-app.listen(port, () => {
+httpServer.listen(port, () => {
   console.log(`Server running on port ${port}`)
 })

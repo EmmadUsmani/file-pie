@@ -1,5 +1,5 @@
-const path = require("path");
-const HTMLWebpackPlugin = require("html-webpack-plugin");
+const path = require("path")
+const HTMLWebpackPlugin = require("html-webpack-plugin")
 
 var config = {
   entry: {
@@ -9,6 +9,10 @@ var config = {
   devServer: {
     static: "./build",
     watchFiles: "./src",
+    proxy: {
+      context: () => true,
+      target: "http://localhost:3000",
+    },
   },
   module: {
     rules: [
@@ -39,15 +43,15 @@ var config = {
       chunks: ["download"],
     }),
   ],
-};
+}
 
 module.exports = (env, argv) => {
   if (argv.mode) {
-    config.mode = argv.mode;
+    config.mode = argv.mode
   }
   if (argv.mode === "development") {
-    config.devtool = "eval-source-map";
+    config.devtool = "eval-source-map"
   }
 
-  return config;
-};
+  return config
+}

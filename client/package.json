@@ -8,7 +8,8 @@
     "build": "webpack --mode=production"
   },
   "dependencies": {
-    "@webrtc-file-transfer/shared": "0.1.0"
+    "@webrtc-file-transfer/shared": "0.1.0",
+    "socket.io-client": "^4.2.0"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
