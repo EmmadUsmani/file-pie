@@ -3,6 +3,8 @@ import { ClientID, Room, RoomID } from "@webrtc-file-transfer/shared"
 import { ExtendedSocket } from "./types"
 import { generateRoomID } from "./utils" // TODO (refactor): consider making this method of Rooms class
 
+import { io } from "."
+
 export class Rooms {
   static rooms: { [key: RoomID]: Room } = {}
 
@@ -10,6 +12,7 @@ export class Rooms {
     const roomID = generateRoomID()
     this.rooms[roomID] = { roomID, sender: sender.id, receivers: [] }
     sender.roomID = roomID
+    void sender.join(roomID)
     return roomID
   }
 
@@ -21,6 +24,7 @@ export class Rooms {
     const room = this.rooms[roomID]
     room.receivers.push(receiver.id)
     receiver.roomID = roomID
+    void receiver.join(roomID)
   }
 
   static receiverLeave(receiver: ExtendedSocket) {
@@ -33,6 +37,18 @@ export class Rooms {
     const room = this.rooms[roomID]
     room.receivers = room.receivers.filter((id) => id !== receiver.id)
     receiver.roomID = ""
+    void receiver.leave(roomID)
+  }
+
+  static senderLeave(sender: ExtendedSocket) {
+    const roomID = sender.roomID
+    if (!(roomID in this.rooms)) {
+      console.log(`Room with id ${roomID} does not exist.`)
+      return
+    }
+
+    delete this.rooms[roomID]
+    io.socketsLeave(roomID)
   }
 
   static getSenderID(roomID: RoomID): ClientID | void {

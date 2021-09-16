@@ -1,6 +1,6 @@
 import { ServerEvent } from "@webrtc-file-transfer/shared"
 
-import { rtcConfig, Server } from "../shared"
+import { rtcConfig } from "../shared"
 
 import { ReceiveServer } from "./server"
 import { getRoomID } from "./util"
@@ -22,6 +22,12 @@ ReceiveServer.listen(ServerEvent.RoomNotFound, () => {
 ReceiveServer.listen(ServerEvent.RoomJoined, () => {
   if (h1) {
     h1.innerText = "Joined room."
+  }
+})
+
+ReceiveServer.listen(ServerEvent.SenderLeft, () => {
+  if (h1) {
+    h1.innerText = "Sender left room."
   }
 })
 

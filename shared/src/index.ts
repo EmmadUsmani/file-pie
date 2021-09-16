@@ -7,6 +7,7 @@ export const enum ServerEvent {
   RoomNotFound = "to_receiver:handshake:room_not_found",
   ReceiverJoined = "to_sender:handshake:receiver_joined",
   ReceiverLeft = "to_sender:handeshake:receiver_left",
+  SenderLeft = "to_receiver:handshake:sender_left",
 }
 
 export type RoomCreatedData = {
