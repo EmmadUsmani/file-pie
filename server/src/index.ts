@@ -21,7 +21,8 @@ if (process.env.NODE_ENV === "production") {
   })
 }
 
-const io = new Server(
+// TODO: refactor to remove circular dependency
+export const io = new Server(
   httpServer,
   process.env.NODE_ENV === "development" // allow cors in dev
     ? {

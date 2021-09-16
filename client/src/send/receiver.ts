@@ -1,10 +1,14 @@
+import { ClientID } from "@webrtc-file-transfer/shared"
+
 import { rtcConfig } from "../shared"
 
 // create new receiver when a peer joins the socket.io room
 export class Receiver {
+  receiverID: ClientID
   peerConnection: RTCPeerConnection
 
-  constructor() {
+  constructor(receiverID: ClientID) {
+    this.receiverID = receiverID
     this.peerConnection = new RTCPeerConnection(rtcConfig)
     // TODO: create dataChannel & listen for 'open' event
     // TODO: initialize listeners

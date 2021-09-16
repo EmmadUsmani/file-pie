@@ -1,9 +1,14 @@
 import { rtcConfig } from "../shared"
 
+import { ReceiveServer } from "./server"
+import { getRoomID } from "./util"
+
 const peerConnection = new RTCPeerConnection(rtcConfig)
 // TODO: create dataChannel
 
-// TODO: join socket.io room from link
+// Join room in server
+ReceiveServer.joinRoom(getRoomID())
+
 void peerConnection.createOffer().then((offer) => handleOffer(offer))
 async function handleOffer(offer: RTCSessionDescriptionInit) {
   void peerConnection.setRemoteDescription(offer)
