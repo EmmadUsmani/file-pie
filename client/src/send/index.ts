@@ -1,10 +1,11 @@
 import {
   ReceiverJoinedData,
+  ReceiverLeftData,
   RoomCreatedData,
   ServerEvent,
 } from "@webrtc-file-transfer/shared"
 
-import { Receiver } from "./receiver"
+import { Receivers } from "./receiver"
 import { SendServer } from "./server"
 
 const fileInput = document.querySelector<HTMLInputElement>("input#fileInput")
@@ -30,8 +31,20 @@ SendServer.listen(ServerEvent.RoomCreated, (data: RoomCreatedData) => {
 
 SendServer.listen(ServerEvent.ReceiverJoined, (data: ReceiverJoinedData) => {
   const { receiverID } = data
-  new Receiver(receiverID)
+  Receivers.addReceiver(receiverID)
   if (h1) {
     h1.innerText += `${receiverID} `
+  }
+})
+
+SendServer.listen(ServerEvent.ReceiverLeft, (data: ReceiverLeftData) => {
+  const { receiverID } = data
+  Receivers.removeReceiver(receiverID)
+  if (h1) {
+    let text = ""
+    for (const receiverID in Receivers.receivers) {
+      text += `${receiverID} `
+    }
+    h1.innerText = text
   }
 })

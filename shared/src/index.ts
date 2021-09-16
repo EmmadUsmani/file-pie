@@ -3,6 +3,7 @@ export const enum ServerEvent {
   RoomCreated = "to_sender:handshake:room_created",
   JoinRoom = "from_receiver:handshake:join_room",
   ReceiverJoined = "to_sender:handshake:receiver_joined",
+  ReceiverLeft = "to_sender:handeshake:receiver_left", // TODO: consider separate rooms namespace rather than handshake
 }
 
 export type RoomCreatedData = {
@@ -14,6 +15,10 @@ export type JoinRoomData = {
 }
 
 export type ReceiverJoinedData = {
+  receiverID: ClientID
+}
+
+export type ReceiverLeftData = {
   receiverID: ClientID
 }
 
