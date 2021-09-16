@@ -12,7 +12,13 @@ import { ExtendedSocket } from "../../types"
 export function registerReceiverHandlers(socket: ExtendedSocket) {
   socket.on(ServerEvent.JoinRoom, (data: JoinRoomData) => {
     const { roomID } = data
-    Rooms.receiverJoin(socket, roomID)
+    try {
+      Rooms.receiverJoin(socket, roomID)
+    } catch {
+      // Room not found, notify receiver
+      socket.emit(ServerEvent.RoomNotFound)
+      return
+    }
 
     // notify sender
     const senderID = Rooms.getSenderID(roomID)

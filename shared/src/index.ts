@@ -1,9 +1,11 @@
+// TODO: consider separate rooms namespace rather than handshake
 export const enum ServerEvent {
   CreateRoom = "from_sender:handshake:create_room",
   RoomCreated = "to_sender:handshake:room_created",
   JoinRoom = "from_receiver:handshake:join_room",
   ReceiverJoined = "to_sender:handshake:receiver_joined",
-  ReceiverLeft = "to_sender:handeshake:receiver_left", // TODO: consider separate rooms namespace rather than handshake
+  ReceiverLeft = "to_sender:handeshake:receiver_left",
+  RoomNotFound = "to_receiver:handshake:room_not_found",
 }
 
 export type RoomCreatedData = {

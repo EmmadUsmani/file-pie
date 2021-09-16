@@ -15,8 +15,7 @@ export class Rooms {
 
   static receiverJoin(receiver: ExtendedSocket, roomID: RoomID) {
     if (!(roomID in this.rooms)) {
-      console.log(`Room with id ${roomID} does not exist.`)
-      return
+      throw Error(`Room with id ${roomID} does not exist.`)
     }
 
     const room = this.rooms[roomID]
