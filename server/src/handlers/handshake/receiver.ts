@@ -20,10 +20,13 @@ export function registerReceiverHandlers(socket: ExtendedSocket) {
       return
     }
 
+    // notify receiver
+    socket.emit(ServerEvent.RoomJoined)
+
     // notify sender
     const senderID = Rooms.getSenderID(roomID)
     if (!senderID) {
-      return // if room doesn't exist, return
+      return // TODO: better error handling here
     }
     const resData: ReceiverJoinedData = { receiverID: socket.id }
     io.to(senderID).emit(ServerEvent.ReceiverJoined, resData)
@@ -36,7 +39,7 @@ export function registerReceiverHandlers(socket: ExtendedSocket) {
     // notify sender
     const senderID = Rooms.getSenderID(roomID)
     if (!senderID) {
-      return // if room doesn't exist, return
+      return // TODO: better error handling here
     }
     const resData: ReceiverLeftData = { receiverID: socket.id }
     io.to(senderID).emit(ServerEvent.ReceiverLeft, resData)
