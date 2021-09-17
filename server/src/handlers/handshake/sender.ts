@@ -1,5 +1,11 @@
-import { RoomCreatedData, ServerEvent } from "@webrtc-file-transfer/shared"
+import {
+  OfferSentData,
+  RoomCreatedData,
+  SendOfferData,
+  ServerEvent,
+} from "@webrtc-file-transfer/shared"
 
+import { io } from "../.."
 import { Rooms } from "../../rooms" // TODO (refactor): configure baseUrl
 import { ExtendedSocket } from "../../types"
 import { registerHandler } from "../../utils"
@@ -30,5 +36,13 @@ export function registerSenderHandlers(socket: ExtendedSocket) {
     socket.to(roomID).emit(ServerEvent.SenderLeft)
 
     Rooms.senderLeave(socket)
+  })
+
+  registerHandler(socket, ServerEvent.SendOffer, (data: SendOfferData) => {
+    const { offer, receiverID } = data
+
+    // forward offer to receiver
+    const resData: OfferSentData = { offer }
+    io.to(receiverID).emit(ServerEvent.OfferSent, resData)
   })
 }

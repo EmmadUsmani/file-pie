@@ -2,6 +2,8 @@ import { ClientID } from "@webrtc-file-transfer/shared"
 
 import { rtcConfig } from "../shared"
 
+import { SendServer } from "./server"
+
 export class Receivers {
   static receivers: { [key: ClientID]: Receiver } = {}
 
@@ -36,7 +38,7 @@ export class Receiver {
   async sendOffer() {
     const offer = await this.peerConnection.createOffer()
     void this.peerConnection.setLocalDescription(offer)
-    console.log(offer) // TODO: send offer to socket.io this peer
+    SendServer.sendOffer(offer, this.receiverID)
   }
 
   handleAnswer(answer: RTCSessionDescriptionInit) {
