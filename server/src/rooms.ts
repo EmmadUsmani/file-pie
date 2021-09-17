@@ -12,6 +12,7 @@ export class Rooms {
     const roomID = generateRoomID()
     this.rooms[roomID] = { roomID, sender: sender.id, receivers: [] }
     sender.roomID = roomID
+    sender.clientType = "sender"
     void sender.join(roomID)
     return roomID
   }
@@ -22,6 +23,7 @@ export class Rooms {
     const room = this.rooms[roomID]
     room.receivers.push(receiver.id)
     receiver.roomID = roomID
+    receiver.clientType = "receiver"
     void receiver.join(roomID)
   }
 
@@ -32,6 +34,7 @@ export class Rooms {
     const room = this.rooms[roomID]
     room.receivers = room.receivers.filter((id) => id !== receiver.id)
     receiver.roomID = ""
+    receiver.clientType = undefined
     void receiver.leave(roomID)
   }
 
@@ -39,6 +42,7 @@ export class Rooms {
     const roomID = sender.roomID
     this.verifyRoomExists(roomID)
 
+    sender.clientType = undefined
     delete this.rooms[roomID]
     io.socketsLeave(roomID)
   }

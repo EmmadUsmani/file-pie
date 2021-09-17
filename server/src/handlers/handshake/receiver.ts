@@ -16,7 +16,7 @@ export function registerReceiverHandlers(socket: ExtendedSocket) {
     try {
       Rooms.receiverJoin(socket, roomID)
     } catch {
-      // Room not found, notify receiver
+      // invalid roomID
       socket.emit(ServerEvent.RoomNotFound)
       return
     }
@@ -32,13 +32,21 @@ export function registerReceiverHandlers(socket: ExtendedSocket) {
 
   registerHandler(socket, "disconnect", () => {
     const roomID = socket.roomID
+
+    // do nothing if client is not in a room
+    if (!roomID) {
+      return
+    }
+
+    // do nothing if client is not a receiver
+    if (socket.clientType !== "receiver") {
+      return
+    }
+
     Rooms.receiverLeave(socket)
 
     // notify sender
     const senderID = Rooms.getSenderID(roomID)
-    if (!senderID) {
-      return // TODO: better error handling here
-    }
     const resData: ReceiverLeftData = { receiverID: socket.id }
     io.to(senderID).emit(ServerEvent.ReceiverLeft, resData)
   })

@@ -16,6 +16,16 @@ export function registerSenderHandlers(socket: ExtendedSocket) {
   registerHandler(socket, "disconnect", () => {
     const roomID = socket.roomID
 
+    // do nothing if client is not in a room
+    if (!roomID) {
+      return
+    }
+
+    // do nothing if client is not a sender
+    if (socket.clientType !== "sender") {
+      return
+    }
+
     // notify all receivers
     socket.to(roomID).emit(ServerEvent.SenderLeft)
 
