@@ -1,7 +1,7 @@
 import { ServerEvent } from "@webrtc-file-transfer/shared"
 import { io } from "socket.io-client"
 
-type ServerEventListener = (data: any) => void // TODO: fix any
+type ServerEventListener = (data: any) => void | Promise<void> // TODO: fix any
 
 export class Server {
   static socket = io("/")

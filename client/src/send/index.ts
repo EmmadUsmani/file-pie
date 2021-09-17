@@ -1,4 +1,5 @@
 import {
+  AnswerSentData,
   ReceiverJoinedData,
   ReceiverLeftData,
   RoomCreatedData,
@@ -32,4 +33,11 @@ SendServer.listen(ServerEvent.ReceiverLeft, (data: ReceiverLeftData) => {
   const { receiverID } = data
   Receivers.removeReceiver(receiverID)
   UI.updateReceivers()
+})
+
+SendServer.listen(ServerEvent.AnswerSent, (data: AnswerSentData) => {
+  const { answer, receiverID } = data
+
+  const receiver = Receivers.getReceiver(receiverID)
+  receiver.acceptAnswer(answer)
 })

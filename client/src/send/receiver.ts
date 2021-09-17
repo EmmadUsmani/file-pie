@@ -15,6 +15,10 @@ export class Receivers {
     this.receivers[receiverID].destructor()
     delete this.receivers[receiverID]
   }
+
+  static getReceiver(receiverID: ClientID) {
+    return this.receivers[receiverID]
+  }
 }
 
 // create new receiver when a peer joins the socket.io room
@@ -26,7 +30,6 @@ export class Receiver {
     this.receiverID = receiverID
     this.peerConnection = new RTCPeerConnection(rtcConfig)
     // TODO: create dataChannel & listen for 'open' event
-    // TODO: initialize listeners
     void this.sendOffer()
   }
 
@@ -41,7 +44,7 @@ export class Receiver {
     SendServer.sendOffer(offer, this.receiverID)
   }
 
-  handleAnswer(answer: RTCSessionDescriptionInit) {
+  acceptAnswer(answer: RTCSessionDescriptionInit) {
     void this.peerConnection.setRemoteDescription(answer)
   }
 }

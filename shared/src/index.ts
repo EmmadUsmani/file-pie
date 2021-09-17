@@ -10,6 +10,8 @@ export const enum ServerEvent {
   SenderLeft = "to_receiver:handshake:sender_left",
   SendOffer = "from_sender:handshake:send_offer",
   OfferSent = "to_receiver:handshake:offer_sent",
+  SendAnswer = "from_receiver:handshake:send_answer",
+  AnswerSent = "to_sender:handshake:answer_sent",
 }
 
 export type RoomCreatedData = {
@@ -35,6 +37,15 @@ export type SendOfferData = {
 
 export type OfferSentData = {
   offer: RTCSessionDescriptionInit
+}
+
+export type SendAnswerData = {
+  answer: RTCSessionDescriptionInit
+}
+
+export type AnswerSentData = {
+  answer: RTCSessionDescriptionInit
+  receiverID: ClientID
 }
 
 export type ClientID = string

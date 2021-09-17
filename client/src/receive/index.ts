@@ -31,19 +31,11 @@ ReceiveServer.listen(ServerEvent.SenderLeft, () => {
   }
 })
 
-ReceiveServer.listen(ServerEvent.OfferSent, (data: OfferSentData) => {
+ReceiveServer.listen(ServerEvent.OfferSent, async (data: OfferSentData) => {
   const { offer } = data
 
-  console.log("Received offer:")
-  console.log(offer)
-  void peerConnection.setRemoteDescription(offer)
-  console.log("set remote desc")
-})
-
-void peerConnection.createOffer().then((offer) => handleOffer(offer))
-async function handleOffer(offer: RTCSessionDescriptionInit) {
   void peerConnection.setRemoteDescription(offer)
   const answer = await peerConnection.createAnswer()
   void peerConnection.setLocalDescription(answer)
-  console.log(answer) // TODO: send answer to host in socket.io
-}
+  ReceiveServer.sendAnswer(answer)
+})
