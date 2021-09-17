@@ -2,30 +2,23 @@ import { RoomCreatedData, ServerEvent } from "@webrtc-file-transfer/shared"
 
 import { Rooms } from "../../rooms" // TODO (refactor): configure baseUrl
 import { ExtendedSocket } from "../../types"
+import { registerHandler } from "../../utils"
 
 export function registerSenderHandlers(socket: ExtendedSocket) {
-  socket.on(ServerEvent.CreateRoom, () => {
-    try {
-      const roomID = Rooms.createRoom(socket)
+  registerHandler(socket, ServerEvent.CreateRoom, () => {
+    const roomID = Rooms.createRoom(socket)
 
-      // emit response event to sender
-      const resData: RoomCreatedData = { roomID }
-      socket.emit(ServerEvent.RoomCreated, resData)
-    } catch (error) {
-      console.error(error)
-    }
+    // emit response event to sender
+    const resData: RoomCreatedData = { roomID }
+    socket.emit(ServerEvent.RoomCreated, resData)
   })
 
-  socket.on("disconnect", () => {
-    try {
-      const roomID = socket.roomID
+  registerHandler(socket, "disconnect", () => {
+    const roomID = socket.roomID
 
-      // notify all receivers
-      socket.to(roomID).emit(ServerEvent.SenderLeft)
+    // notify all receivers
+    socket.to(roomID).emit(ServerEvent.SenderLeft)
 
-      Rooms.senderLeave(socket)
-    } catch (error) {
-      console.error(error)
-    }
+    Rooms.senderLeave(socket)
   })
 }
