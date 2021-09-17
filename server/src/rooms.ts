@@ -17,9 +17,7 @@ export class Rooms {
   }
 
   static receiverJoin(receiver: ExtendedSocket, roomID: RoomID) {
-    if (!(roomID in this.rooms)) {
-      throw Error(`Room with id ${roomID} does not exist.`)
-    }
+    this.verifyRoomExists(roomID)
 
     const room = this.rooms[roomID]
     room.receivers.push(receiver.id)
@@ -29,10 +27,7 @@ export class Rooms {
 
   static receiverLeave(receiver: ExtendedSocket) {
     const roomID = receiver.roomID
-    if (!(roomID in this.rooms)) {
-      console.log(`Room with id ${roomID} does not exist.`)
-      return
-    }
+    this.verifyRoomExists(roomID)
 
     const room = this.rooms[roomID]
     room.receivers = room.receivers.filter((id) => id !== receiver.id)
@@ -42,21 +37,21 @@ export class Rooms {
 
   static senderLeave(sender: ExtendedSocket) {
     const roomID = sender.roomID
-    if (!(roomID in this.rooms)) {
-      console.log(`Room with id ${roomID} does not exist.`)
-      return
-    }
+    this.verifyRoomExists(roomID)
 
     delete this.rooms[roomID]
     io.socketsLeave(roomID)
   }
 
-  static getSenderID(roomID: RoomID): ClientID | void {
-    if (!(roomID in this.rooms)) {
-      console.log(`Room with id ${roomID} does not exist.`)
-      return
-    }
+  static getSenderID(roomID: RoomID): ClientID {
+    this.verifyRoomExists(roomID)
 
     return this.rooms[roomID].sender
+  }
+
+  static verifyRoomExists(roomID: RoomID) {
+    if (!(roomID in this.rooms)) {
+      throw Error(`Room with id ${roomID} does not exist.`)
+    }
   }
 }

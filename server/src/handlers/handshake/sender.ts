@@ -5,19 +5,27 @@ import { ExtendedSocket } from "../../types"
 
 export function registerSenderHandlers(socket: ExtendedSocket) {
   socket.on(ServerEvent.CreateRoom, () => {
-    const roomID = Rooms.createRoom(socket)
+    try {
+      const roomID = Rooms.createRoom(socket)
 
-    // emit response event to sender
-    const resData: RoomCreatedData = { roomID }
-    socket.emit(ServerEvent.RoomCreated, resData)
+      // emit response event to sender
+      const resData: RoomCreatedData = { roomID }
+      socket.emit(ServerEvent.RoomCreated, resData)
+    } catch (error) {
+      console.error(error)
+    }
   })
 
   socket.on("disconnect", () => {
-    const roomID = socket.roomID
+    try {
+      const roomID = socket.roomID
 
-    // notify all receivers
-    socket.to(roomID).emit(ServerEvent.SenderLeft)
+      // notify all receivers
+      socket.to(roomID).emit(ServerEvent.SenderLeft)
 
-    Rooms.senderLeave(socket)
+      Rooms.senderLeave(socket)
+    } catch (error) {
+      console.error(error)
+    }
   })
 }
