@@ -4,7 +4,7 @@
   "license": "GPL-3.0",
   "private": true,
   "scripts": {
-    "dev": "(NODE_ENV=development concurrently -n tsc,node -c cyan,green \"tsc --w\" \"nodemon build/index.js\")",
+    "dev": "(NODE_ENV=development concurrently -n tsc,node -p \"[{name}] [{time}]\" -t \"hh:mm:ss\" \"tsc --w\" \"nodemon build/index.js\")",
     "clean": "rm -rf build",
     "build": "tsc",
     "start": "(NODE_ENV=production node build/index.js)"
