@@ -1,6 +1,8 @@
 import {
+  IceCandidateSentFromSenderData,
   OfferSentData,
   RoomCreatedData,
+  SendIceCandidateToReceiverData,
   SendOfferData,
   ServerEvent,
 } from "@webrtc-file-transfer/shared"
@@ -45,4 +47,16 @@ export function registerSenderHandlers(socket: ExtendedSocket) {
     const resData: OfferSentData = { offer }
     io.to(receiverID).emit(ServerEvent.OfferSent, resData)
   })
+
+  registerHandler(
+    socket,
+    ServerEvent.SendIceCandidateToReceiver,
+    (data: SendIceCandidateToReceiverData) => {
+      const { iceCandidate, receiverID } = data
+
+      // forward ice candidate to receiver
+      const resData: IceCandidateSentFromSenderData = { iceCandidate }
+      io.to(receiverID).emit(ServerEvent.IceCandidateSentFromSender, resData)
+    }
+  )
 }

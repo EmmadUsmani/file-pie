@@ -12,6 +12,8 @@ export const enum ServerEvent {
   OfferSent = "to_receiver:handshake:offer_sent",
   SendAnswer = "from_receiver:handshake:send_answer",
   AnswerSent = "to_sender:handshake:answer_sent",
+  SendIceCandidateToReceiver = "from_sender:handshake:send_ice_candidate_to_receiver",
+  IceCandidateSentFromSender = "to_receiver:handhsake:ice_candidate_sent_from_sender",
 }
 
 export type RoomCreatedData = {
@@ -46,6 +48,15 @@ export type SendAnswerData = {
 export type AnswerSentData = {
   answer: RTCSessionDescriptionInit
   receiverID: ClientID
+}
+
+export type SendIceCandidateToReceiverData = {
+  iceCandidate: RTCIceCandidate
+  receiverID: ClientID
+}
+
+export type IceCandidateSentFromSenderData = {
+  iceCandidate: RTCIceCandidate
 }
 
 export type ClientID = string

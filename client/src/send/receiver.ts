@@ -25,17 +25,26 @@ export class Receivers {
 export class Receiver {
   receiverID: ClientID
   peerConnection: RTCPeerConnection
+  dataChannel: RTCDataChannel
 
   constructor(receiverID: ClientID) {
     this.receiverID = receiverID
     this.peerConnection = new RTCPeerConnection(rtcConfig)
-    // TODO: create dataChannel & listen for 'open' event
+    this.dataChannel = this.peerConnection.createDataChannel(receiverID)
+    this.initListeners()
     void this.sendOffer()
   }
 
+  initListeners() {
+    this.peerConnection.onicecandidate = (event) => {
+      if (event.candidate) {
+        SendServer.sendIceCandidate(event.candidate, this.receiverID)
+      }
+    }
+  }
+
   destructor() {
-    console.log(`Removing Receiver with id ${this.receiverID}`)
-    // TODO: remove listeners
+    this.peerConnection.close()
   }
 
   async sendOffer() {

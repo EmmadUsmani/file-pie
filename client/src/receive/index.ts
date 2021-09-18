@@ -1,4 +1,8 @@
-import { OfferSentData, ServerEvent } from "@webrtc-file-transfer/shared"
+import {
+  IceCandidateSentFromSenderData,
+  OfferSentData,
+  ServerEvent,
+} from "@webrtc-file-transfer/shared"
 
 import { rtcConfig } from "../shared"
 
@@ -8,7 +12,7 @@ import { getRoomID } from "./util"
 const h1 = document.querySelector<HTMLHeadingElement>("h1#title")
 
 const peerConnection = new RTCPeerConnection(rtcConfig)
-// TODO: create dataChannel
+const dataChannel = peerConnection.createDataChannel("sender")
 
 // Join room in server
 ReceiveServer.joinRoom(getRoomID())
@@ -39,3 +43,16 @@ ReceiveServer.listen(ServerEvent.OfferSent, async (data: OfferSentData) => {
   void peerConnection.setLocalDescription(answer)
   ReceiveServer.sendAnswer(answer)
 })
+
+ReceiveServer.listen(
+  ServerEvent.IceCandidateSentFromSender,
+  async (data: IceCandidateSentFromSenderData) => {
+    const { iceCandidate } = data
+
+    try {
+      await peerConnection.addIceCandidate(iceCandidate)
+    } catch (error) {
+      console.error("Error adding received ice candidate", error)
+    }
+  }
+)

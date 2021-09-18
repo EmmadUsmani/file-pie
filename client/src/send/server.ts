@@ -1,5 +1,6 @@
 import {
   ClientID,
+  SendIceCandidateToReceiverData,
   SendOfferData,
   ServerEvent,
 } from "@webrtc-file-transfer/shared"
@@ -14,5 +15,10 @@ export class SendServer extends Server {
   static sendOffer(offer: RTCSessionDescriptionInit, receiverID: ClientID) {
     const data: SendOfferData = { offer, receiverID }
     this.socket.emit(ServerEvent.SendOffer, data)
+  }
+
+  static sendIceCandidate(iceCandidate: RTCIceCandidate, receiverID: ClientID) {
+    const data: SendIceCandidateToReceiverData = { iceCandidate, receiverID }
+    this.socket.emit(ServerEvent.SendIceCandidateToReceiver, data)
   }
 }
