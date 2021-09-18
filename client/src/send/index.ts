@@ -1,5 +1,6 @@
 import {
   AnswerSentData,
+  IceCandidateSentFromReceiverData,
   ReceiverJoinedData,
   ReceiverLeftData,
   RoomCreatedData,
@@ -41,3 +42,13 @@ SendServer.listen(ServerEvent.AnswerSent, (data: AnswerSentData) => {
   const receiver = Receivers.getReceiver(receiverID)
   receiver.acceptAnswer(answer)
 })
+
+SendServer.listen(
+  ServerEvent.IceCandidateSentFromReceiver,
+  (data: IceCandidateSentFromReceiverData) => {
+    const { iceCandidate, receiverID } = data
+
+    const receiver = Receivers.getReceiver(receiverID)
+    receiver.addIceCandidate(iceCandidate)
+  }
+)

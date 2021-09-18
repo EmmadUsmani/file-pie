@@ -14,6 +14,8 @@ export const enum ServerEvent {
   AnswerSent = "to_sender:handshake:answer_sent",
   SendIceCandidateToReceiver = "from_sender:handshake:send_ice_candidate_to_receiver",
   IceCandidateSentFromSender = "to_receiver:handhsake:ice_candidate_sent_from_sender",
+  SendIceCandidateToSender = "from_receiver:handshake:send_ice_candidate_to_sender",
+  IceCandidateSentFromReceiver = "to_sender:handshake:ice_candidate_sent_from_receiver",
 }
 
 export type RoomCreatedData = {
@@ -57,6 +59,15 @@ export type SendIceCandidateToReceiverData = {
 
 export type IceCandidateSentFromSenderData = {
   iceCandidate: RTCIceCandidate
+}
+
+export type SendIceCandidateToSenderData = {
+  iceCandidate: RTCIceCandidate
+}
+
+export type IceCandidateSentFromReceiverData = {
+  iceCandidate: RTCIceCandidate
+  receiverID: ClientID
 }
 
 export type ClientID = string

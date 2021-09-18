@@ -1,9 +1,11 @@
 import {
   AnswerSentData,
+  IceCandidateSentFromReceiverData,
   JoinRoomData,
   ReceiverJoinedData,
   ReceiverLeftData,
   SendAnswerData,
+  SendIceCandidateToSenderData,
   ServerEvent,
 } from "@webrtc-file-transfer/shared"
 
@@ -61,4 +63,20 @@ export function registerReceiverHandlers(socket: ExtendedSocket) {
     const resData: AnswerSentData = { answer, receiverID: socket.id }
     io.to(senderID).emit(ServerEvent.AnswerSent, resData)
   })
+
+  registerHandler(
+    socket,
+    ServerEvent.SendIceCandidateToSender,
+    (data: SendIceCandidateToSenderData) => {
+      const { iceCandidate } = data
+
+      // forward to sender
+      const senderID = Rooms.getSenderID(socket.roomID)
+      const resData: IceCandidateSentFromReceiverData = {
+        iceCandidate,
+        receiverID: socket.id,
+      }
+      io.to(senderID).emit(ServerEvent.IceCandidateSentFromReceiver, resData)
+    }
+  )
 }

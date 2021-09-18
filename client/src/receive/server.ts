@@ -2,6 +2,7 @@ import {
   JoinRoomData,
   RoomID,
   SendAnswerData,
+  SendIceCandidateToSenderData,
   ServerEvent,
 } from "@webrtc-file-transfer/shared"
 
@@ -16,5 +17,10 @@ export class ReceiveServer extends Server {
   static sendAnswer(answer: RTCSessionDescriptionInit) {
     const data: SendAnswerData = { answer }
     this.socket.emit(ServerEvent.SendAnswer, data)
+  }
+
+  static sendIceCandidate(iceCandidate: RTCIceCandidate) {
+    const data: SendIceCandidateToSenderData = { iceCandidate }
+    this.socket.emit(ServerEvent.SendIceCandidateToSender, data)
   }
 }

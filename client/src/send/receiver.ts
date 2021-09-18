@@ -56,4 +56,8 @@ export class Receiver {
   acceptAnswer(answer: RTCSessionDescriptionInit) {
     void this.peerConnection.setRemoteDescription(answer)
   }
+
+  addIceCandidate(iceCandidate: RTCIceCandidate) {
+    void this.peerConnection.addIceCandidate(iceCandidate)
+  }
 }

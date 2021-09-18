@@ -14,6 +14,12 @@ const h1 = document.querySelector<HTMLHeadingElement>("h1#title")
 const peerConnection = new RTCPeerConnection(rtcConfig)
 const dataChannel = peerConnection.createDataChannel("sender")
 
+peerConnection.onicecandidate = (event) => {
+  if (event.candidate) {
+    ReceiveServer.sendIceCandidate(event.candidate)
+  }
+}
+
 // Join room in server
 ReceiveServer.joinRoom(getRoomID())
 
