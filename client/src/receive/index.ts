@@ -12,11 +12,18 @@ import { getRoomID } from "./util"
 const h1 = document.querySelector<HTMLHeadingElement>("h1#title")
 
 const peerConnection = new RTCPeerConnection(rtcConfig)
-const dataChannel = peerConnection.createDataChannel("sender")
 
 peerConnection.onicecandidate = (event) => {
   if (event.candidate) {
     ReceiveServer.sendIceCandidate(event.candidate)
+  }
+}
+
+peerConnection.ondatachannel = (event) => {
+  const dataChannel = event.channel
+
+  dataChannel.onmessage = (event) => {
+    console.log(event)
   }
 }
 

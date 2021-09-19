@@ -1,6 +1,6 @@
 import { ClientID } from "@webrtc-file-transfer/shared"
 
-import { rtcConfig } from "../shared"
+import { FileMetadataMessage, rtcConfig } from "../shared"
 
 import { SendServer } from "./server"
 
@@ -30,7 +30,9 @@ export class Receiver {
   constructor(receiverID: ClientID) {
     this.receiverID = receiverID
     this.peerConnection = new RTCPeerConnection(rtcConfig)
-    this.dataChannel = this.peerConnection.createDataChannel(receiverID)
+    this.dataChannel = this.peerConnection.createDataChannel(receiverID, {
+      ordered: true,
+    })
     this.initListeners()
     void this.sendOffer()
   }
@@ -40,6 +42,20 @@ export class Receiver {
       if (event.candidate) {
         SendServer.sendIceCandidate(event.candidate, this.receiverID)
       }
+    }
+
+    this.dataChannel.onopen = () => {
+      const fileMetadataMessage: FileMetadataMessage = {
+        type: "file_metadata",
+        content: {
+          name: "asdf",
+          type: "image",
+          size: 100,
+          lastModified: "today",
+        },
+      }
+
+      this.dataChannel.send(JSON.stringify(fileMetadataMessage))
     }
   }
 
