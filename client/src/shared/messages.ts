@@ -9,6 +9,6 @@ export interface FileMetadataMessage extends Message {
     name: string
     type: string
     size: number
-    lastModified: string
+    lastModified: number
   }
 }

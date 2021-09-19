@@ -15,6 +15,14 @@ export class UI {
     return this.fileInputElem
   }
 
+  static getFile(): File {
+    const fileInputElem = this.getFileInputElem()
+    if (!fileInputElem.files || !fileInputElem.files[0]) {
+      throw Error("file input element does not have a file")
+    }
+    return fileInputElem.files[0]
+  }
+
   static getRoomIDElem(): HTMLParagraphElement {
     if (!this.roomIDElem) {
       throw Error("roomID element does not exist.")

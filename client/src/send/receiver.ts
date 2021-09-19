@@ -3,6 +3,7 @@ import { ClientID } from "@webrtc-file-transfer/shared"
 import { FileMetadataMessage, rtcConfig } from "../shared"
 
 import { SendServer } from "./server"
+import { UI } from "./ui"
 
 export class Receivers {
   static receivers: { [key: ClientID]: Receiver } = {}
@@ -45,17 +46,18 @@ export class Receiver {
     }
 
     this.dataChannel.onopen = () => {
-      const fileMetadataMessage: FileMetadataMessage = {
+      const file = UI.getFile()
+      const message: FileMetadataMessage = {
         type: "file_metadata",
         content: {
-          name: "asdf",
-          type: "image",
-          size: 100,
-          lastModified: "today",
+          name: file.name,
+          type: file.type,
+          size: file.size,
+          lastModified: file.lastModified,
         },
       }
 
-      this.dataChannel.send(JSON.stringify(fileMetadataMessage))
+      this.dataChannel.send(JSON.stringify(message))
     }
   }
 

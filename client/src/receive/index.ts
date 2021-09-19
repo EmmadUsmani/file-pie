@@ -6,6 +6,7 @@ import {
 
 import { rtcConfig } from "../shared"
 
+import { parseFileMetadataMessage } from "./parse"
 import { ReceiveServer } from "./server"
 import { getRoomID } from "./util"
 
@@ -23,7 +24,12 @@ peerConnection.ondatachannel = (event) => {
   const dataChannel = event.channel
 
   dataChannel.onmessage = (event) => {
-    console.log(event)
+    const message = parseFileMetadataMessage(event.data)
+    const { name, type, size, lastModified } = message.content
+    if (h1) {
+      h1.innerText =
+        name + " " + type + " " + String(size) + " " + String(lastModified)
+    }
   }
 }
 
