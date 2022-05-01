@@ -10,8 +10,10 @@ import { parseFileMetadataMessage } from "./parse"
 import { ReceiveServer } from "./server"
 import { getRoomID } from "./util"
 
+// TODO: create UI abstraction
 const h1 = document.querySelector<HTMLHeadingElement>("h1#title")
 
+// TODO: peerConnection code is very imperative, create an abstractions
 const peerConnection = new RTCPeerConnection(rtcConfig)
 
 peerConnection.onicecandidate = (event) => {

@@ -19,6 +19,7 @@ fileInputElem.addEventListener("change", () => {
   }
 })
 
+// TODO: consider creating a separate listeners class and initializing them there
 SendServer.listen(ServerEvent.RoomCreated, (data: RoomCreatedData) => {
   const { roomID } = data
   UI.setRoomID(roomID)
@@ -27,13 +28,13 @@ SendServer.listen(ServerEvent.RoomCreated, (data: RoomCreatedData) => {
 SendServer.listen(ServerEvent.ReceiverJoined, (data: ReceiverJoinedData) => {
   const { receiverID } = data
   Receivers.addReceiver(receiverID)
-  UI.updateReceivers()
+  UI.updateReceivers() // TODO: maybe put this in the .addReceiver method, since that file already uses UI
 })
 
 SendServer.listen(ServerEvent.ReceiverLeft, (data: ReceiverLeftData) => {
   const { receiverID } = data
   Receivers.removeReceiver(receiverID)
-  UI.updateReceivers()
+  UI.updateReceivers() // TODO: maybe put this in the .addReceiver method, since that file already uses UI
 })
 
 SendServer.listen(ServerEvent.AnswerSent, (data: AnswerSentData) => {

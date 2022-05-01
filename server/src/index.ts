@@ -16,6 +16,7 @@ if (process.env.NODE_ENV === "production") {
   app.get("/", (_, res) => {
     res.sendFile(path.join(buildPath, "index.html"))
   })
+  // TODO: should this be named receive or download
   app.get("/download", (_, res) => {
     res.sendFile(path.join(buildPath, "download.html"))
   })

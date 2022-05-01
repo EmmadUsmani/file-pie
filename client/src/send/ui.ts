@@ -49,6 +49,7 @@ export class UI {
     }
     text = text.slice(0, text.length - 2)
 
+    // TODO: consider using more declarative code, e.g. this.setReceiversText
     const receiversElem = this.getReceiversElem()
     receiversElem.innerText = text
   }

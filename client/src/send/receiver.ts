@@ -6,6 +6,7 @@ import { SendServer } from "./server"
 import { UI } from "./ui"
 
 export class Receivers {
+  // TODO: maybe use Record type instead
   static receivers: { [key: ClientID]: Receiver } = {}
 
   static addReceiver(receiverID: ClientID) {
@@ -47,6 +48,9 @@ export class Receiver {
 
     this.dataChannel.onopen = () => {
       const file = UI.getFile()
+      /* TODO: Defining the type field to be "file_metadata" and having
+      to manually write that here seems like an antipattern. Should there
+      be a class so the constructor can do that instead of doing it here? */
       const message: FileMetadataMessage = {
         type: "file_metadata",
         content: {

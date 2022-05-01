@@ -22,6 +22,7 @@ export function registerSenderHandlers(socket: ExtendedSocket) {
   })
 
   registerHandler(socket, "disconnect", () => {
+    // TODO: code is very imperative, can we make ExtendedSocket a class and add declarative methods?
     const roomID = socket.roomID
 
     // do nothing if client is not in a room
