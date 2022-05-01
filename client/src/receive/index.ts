@@ -8,10 +8,8 @@ import { rtcConfig } from "../shared"
 
 import { parseFileMetadataMessage } from "./parse"
 import { ReceiveServer } from "./server"
+import { UI } from "./ui"
 import { getRoomID } from "./util"
-
-// TODO: create UI abstraction
-const h1 = document.querySelector<HTMLHeadingElement>("h1#title")
 
 // TODO: peerConnection code is very imperative, create an abstractions
 const peerConnection = new RTCPeerConnection(rtcConfig)
@@ -27,11 +25,7 @@ peerConnection.ondatachannel = (event) => {
 
   dataChannel.onmessage = (event) => {
     const message = parseFileMetadataMessage(event.data)
-    const { name, type, size, lastModified } = message.content
-    if (h1) {
-      h1.innerText =
-        name + " " + type + " " + String(size) + " " + String(lastModified)
-    }
+    UI.displayFileMetadata(message)
   }
 }
 
@@ -39,21 +33,15 @@ peerConnection.ondatachannel = (event) => {
 ReceiveServer.joinRoom(getRoomID())
 
 ReceiveServer.listen(ServerEvent.RoomNotFound, () => {
-  if (h1) {
-    h1.innerText = "Room not found."
-  }
+  UI.displayMessage("Room not found.")
 })
 
 ReceiveServer.listen(ServerEvent.RoomJoined, () => {
-  if (h1) {
-    h1.innerText = "Joined room."
-  }
+  UI.displayMessage("Joined room.")
 })
 
 ReceiveServer.listen(ServerEvent.SenderLeft, () => {
-  if (h1) {
-    h1.innerText = "Sender left room."
-  }
+  UI.displayMessage("Sender left room.")
 })
 
 ReceiveServer.listen(ServerEvent.OfferSent, async (data: OfferSentData) => {
