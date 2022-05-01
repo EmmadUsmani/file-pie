@@ -13,7 +13,8 @@ import { UI } from "./ui"
 
 const fileInputElem = UI.getFileInputElem()
 fileInputElem.addEventListener("change", () => {
-  if (fileInputElem.files) {
+  // TODO: better abstraction for storing state (roomID, file)
+  if (fileInputElem.files && !UI.getRoomIDElem().innerText) {
     SendServer.createRoom()
     // TODO: show loader while waiting for RoomCreated event
   }

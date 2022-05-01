@@ -47,6 +47,8 @@ export class Receiver {
     }
 
     this.dataChannel.onopen = () => {
+      // TODO: should we really call UI here? maybe store a file pointer
+      // and call this.filePtr.current
       const file = UI.getFile()
       /* TODO: Defining the type field to be "file_metadata" and having
       to manually write that here seems like an antipattern. Should there
