@@ -4,7 +4,7 @@ import {
   ServerEvent,
 } from "@webrtc-file-transfer/shared"
 
-import { rtcConfig } from "../shared"
+import { CHUNK_SIZE, FileMetadataMessage, rtcConfig } from "../shared"
 
 import { parseFileMetadataMessage } from "./parse"
 import { ReceiveServer } from "./server"
@@ -22,10 +22,25 @@ peerConnection.onicecandidate = (event) => {
 
 peerConnection.ondatachannel = (event) => {
   const dataChannel = event.channel
+  let metadata: FileMetadataMessage["content"]
+  const chunks: Array<ArrayBuffer> = []
 
   dataChannel.onmessage = (event) => {
-    const message = parseFileMetadataMessage(event.data)
-    UI.displayFileMetadata(message)
+    // TODO: come up with a better way of type checking
+    if (typeof event.data === "string") {
+      try {
+        metadata = parseFileMetadataMessage(event.data).content
+        UI.displayFileMetadata(metadata)
+      } catch (error) {
+        console.error("Error parsing metadata")
+      }
+    } else {
+      chunks.push(event.data)
+      if (chunks.length === Math.ceil(metadata.size / CHUNK_SIZE)) {
+        // TODO: add additional metadata to file
+        UI.downloadFile(chunks, metadata.name)
+      }
+    }
   }
 }
 

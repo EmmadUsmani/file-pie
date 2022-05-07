@@ -1,6 +1,6 @@
 import { ClientID } from "@webrtc-file-transfer/shared"
 
-import { FileMetadataMessage, rtcConfig } from "../shared"
+import { FileMetadataMessage, rtcConfig, CHUNK_SIZE } from "../shared"
 
 import { SendServer } from "./server"
 import { UI } from "./ui"
@@ -53,7 +53,7 @@ export class Receiver {
       /* TODO: Defining the type field to be "file_metadata" and having
       to manually write that here seems like an antipattern. Should there
       be a class so the constructor can do that instead of doing it here? */
-      const message: FileMetadataMessage = {
+      const metadataMessage: FileMetadataMessage = {
         type: "file_metadata",
         content: {
           name: file.name,
@@ -62,8 +62,8 @@ export class Receiver {
           lastModified: file.lastModified,
         },
       }
-
-      this.dataChannel.send(JSON.stringify(message))
+      this.dataChannel.send(JSON.stringify(metadataMessage))
+      void this._sendFile(file)
     }
   }
 
@@ -71,6 +71,7 @@ export class Receiver {
     this.peerConnection.close()
   }
 
+  // TODO (prefix with _ or use ES7? private method), also add void type
   async sendOffer() {
     const offer = await this.peerConnection.createOffer()
     void this.peerConnection.setLocalDescription(offer)
@@ -83,5 +84,14 @@ export class Receiver {
 
   addIceCandidate(iceCandidate: RTCIceCandidate) {
     void this.peerConnection.addIceCandidate(iceCandidate)
+  }
+
+  async _sendFile(file: File) {
+    const arrayBuffer = await file.arrayBuffer()
+    for (let i = 0; i < Math.ceil(arrayBuffer.byteLength / CHUNK_SIZE); i++) {
+      this.dataChannel.send(
+        arrayBuffer.slice(i * CHUNK_SIZE, (i + 1) * CHUNK_SIZE)
+      )
+    }
   }
 }
