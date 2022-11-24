@@ -1,0 +1,16 @@
+#caption {
+  margin-top: 32px;
+  margin-bottom: 32px;
+}
+
+#fileInput {
+  display: none;
+}
+
+#roomID {
+  display: none;
+}
+
+#receivers {
+  display: none;
+}

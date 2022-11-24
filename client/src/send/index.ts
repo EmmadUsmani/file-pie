@@ -11,6 +11,10 @@ import { Receivers } from "./receiver"
 import { SendServer } from "./server"
 import { UI } from "./ui"
 
+import "../shared/style.css"
+import "./style.css"
+import "../shared/logo.svg"
+
 const fileInputElem = UI.getFileInputElem()
 fileInputElem.addEventListener("change", () => {
   // TODO: better abstraction for storing state (roomID, file)
