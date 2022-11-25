@@ -2,22 +2,24 @@
   --primary-color: #be464c;
   --secondary-color: #6b1519;
   --text-color: #171717;
-  --background-color: #ffffff;
+  --primary-background-color: #ffffff;
+  --secondary-background-color: rgba(225, 216, 211, 0.25);
+}
+
+* {
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  margin: 0;
-  display: flex;
-  flex-direction: column;
   text-align: center;
   font-family: "Source Serif Pro", serif;
   color: var(--text-color);
-  background-color: var(--background-color);
+  background-color: var(--primary-background-color);
 }
 
 button {
-  align-self: center;
-  padding-top: 8px;
+  padding-top: 8px; /* todo: replace px with rem */
   padding-bottom: 8px;
   padding-left: 32px;
   padding-right: 32px;
@@ -28,8 +30,19 @@ button {
   font-family: "Mulish", sans-serif;
   font-weight: 600;
   background-color: var(--primary-color);
-  color: var(--background-color);
+  color: var(--primary-background-color);
   cursor: pointer;
+}
+
+a {
+  color: var(--primary-color);
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
 }
 
 .subtitle {
@@ -41,10 +54,4 @@ button {
   font-size: 96px;
   font-weight: 700;
   color: var(--primary-color);
-  margin-top: 16px;
-  margin-bottom: 32px;
-}
-
-#logo {
-  align-self: center;
 }

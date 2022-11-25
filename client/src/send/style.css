@@ -1,16 +1,35 @@
-#caption {
-  margin-top: 32px;
-  margin-bottom: 32px;
+.statistic {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  width: 250px;
+  font-style: italic;
+  font-size: 16px;
 }
 
-#fileInput {
+#statistics {
+  gap: 8px;
+}
+
+#sending {
   display: none;
 }
 
-#roomID {
+#file-input {
+  display: none;
+}
+
+#share {
+  gap: 16px;
+  padding: 16px;
+  border-radius: 8px;
+  background-color: var(--secondary-background-color);
+}
+
+/* #roomID {
   display: none;
 }
 
 #receivers {
   display: none;
-}
+} */

@@ -7,19 +7,43 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Mulish:wght@600&family=Source+Serif+Pro:wght@400;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Mulish:wght@600&family=Source+Serif+Pro:ital,wght@0,400;0,700;1,400&display=swap"
       rel="stylesheet"
     />
     <title>File Pie</title>
   </head>
-  <body>
+  <body class="flex-col">
     <h1 id="title">File Pie</h1>
     <img id="logo" src="<%= require('../shared/logo.svg') %>" height="250" />
-    <p id="caption" class="subtitle">
-      Send files directly to recipients,<br />without your data being stored.
-    </p>
-    <button>Upload</button>
-    <input type="file" id="fileInput" />
+    <div id="intro" class="flex-col">
+      <p id="caption" class="subtitle">
+        Send files directly to recipients,<br />without your data being stored.
+      </p>
+      <button id="upload">Upload</button>
+      <input type="file" id="file-input" />
+    </div>
+    <div id="sending" class="flex-col">
+      <div id="statistics" class="flex-col">
+        <div class="statistic">
+          <p>Connections</p>
+          <p id="connections">0</p>
+        </div>
+        <div class="statistic">
+          <p>Downloads</p>
+          <p id="downloads">0</p>
+        </div>
+        <div class="statistic">
+          <p>Transferred</p>
+          <p id="Transferred">0</p>
+        </div>
+      </div>
+      <div id="share" class="flex-col">
+        <p>Share the link to send <span id="file-name"></span>.</p>
+        <a href="/" id="link"
+          >filepie.app/37887c89-7198-4cf5-a8ea-843a4bf0f717</a
+        >
+      </div>
+    </div>
     <p id="roomID"></p>
     <p id="receivers"></p>
   </body>

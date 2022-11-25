@@ -15,7 +15,11 @@ import "../shared/style.css"
 import "./style.css"
 import "../shared/logo.svg"
 
+const buttonElem = UI.getButtonElem()
 const fileInputElem = UI.getFileInputElem()
+
+buttonElem.onclick = () => fileInputElem.click()
+
 fileInputElem.addEventListener("change", () => {
   // TODO: better abstraction for storing state (roomID, file)
   if (fileInputElem.files && !UI.getRoomIDElem().innerText) {
