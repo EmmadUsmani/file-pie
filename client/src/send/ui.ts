@@ -7,9 +7,11 @@ export class UI {
   static buttonElem = document.querySelector<HTMLButtonElement>("#upload")
   static fileInputElem = document.querySelector<HTMLInputElement>("#file-input")
   static sendingElem = document.querySelector<HTMLDivElement>("#sending")
-  static roomIDElem = document.querySelector<HTMLParagraphElement>("#roomID")
-  static receiversElem =
-    document.querySelector<HTMLParagraphElement>("#receivers")
+  static connectionsElem =
+    document.querySelector<HTMLParagraphElement>("#connections")
+  static linkElem = document.querySelector<HTMLAnchorElement>("#link")
+  // TODO: implement file name
+  // TODO: implement updating of downloads and transferred elements
 
   static getIntroElem(): HTMLDivElement {
     if (!this.introElem) {
@@ -47,18 +49,18 @@ export class UI {
     return this.sendingElem
   }
 
-  static getRoomIDElem(): HTMLParagraphElement {
-    if (!this.roomIDElem) {
-      throw Error("roomID element does not exist.")
+  static getLinkElem(): HTMLAnchorElement {
+    if (!this.linkElem) {
+      throw Error("Link element does not exist.")
     }
-    return this.roomIDElem
+    return this.linkElem
   }
 
-  static getReceiversElem(): HTMLParagraphElement {
-    if (!this.receiversElem) {
+  static getConnectionsElem(): HTMLParagraphElement {
+    if (!this.connectionsElem) {
       throw Error("receivers element does not exist.")
     }
-    return this.receiversElem
+    return this.connectionsElem
   }
 
   static setRoomID(roomID: RoomID) {
@@ -68,19 +70,18 @@ export class UI {
     const sendingElem = this.getSendingElem()
     sendingElem.style.display = "flex"
 
-    const roomIDElem = this.getRoomIDElem()
-    roomIDElem.innerText = roomID
+    const linkElem = this.getLinkElem()
+    // TODO: dynamically set domain name based on environment
+    // TODO: consider not using roomID query param
+    linkElem.innerText = `filepie.app/receive?roomID=${roomID}`
+    // TODO: fix link to not need .html
+    linkElem.href = `/receive.html?roomID=${roomID}`
   }
 
   static updateReceivers() {
-    let text = ""
-    for (const receiverID in Receivers.receivers) {
-      text += `${receiverID}, `
-    }
-    text = text.slice(0, text.length - 2)
-
-    // TODO: consider using more declarative code, e.g. this.setReceiversText
-    const receiversElem = this.getReceiversElem()
-    receiversElem.innerText = text
+    const connectionsElem = this.getConnectionsElem()
+    connectionsElem.innerText = Object.keys(
+      Receivers.receivers
+    ).length.toString()
   }
 }

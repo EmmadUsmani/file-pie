@@ -22,7 +22,7 @@ buttonElem.onclick = () => fileInputElem.click()
 
 fileInputElem.addEventListener("change", () => {
   // TODO: better abstraction for storing state (roomID, file)
-  if (fileInputElem.files && !UI.getRoomIDElem().innerText) {
+  if (fileInputElem.files && !UI.getLinkElem().innerText) {
     SendServer.createRoom()
     // TODO: show loader while waiting for RoomCreated event
   }
