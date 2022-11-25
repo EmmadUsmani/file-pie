@@ -12,6 +12,7 @@
 }
 
 body {
+  min-height: 100vh;
   text-align: center;
   font-family: "Source Serif Pro", serif;
   color: var(--text-color);
@@ -54,4 +55,10 @@ a {
   font-size: 96px;
   font-weight: 700;
   color: var(--primary-color);
+}
+
+#footer {
+  margin-top: auto;
+  margin-bottom: 16px;
+  font-size: 16px;
 }
