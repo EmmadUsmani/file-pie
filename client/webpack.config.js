@@ -5,6 +5,7 @@ var config = {
   entry: {
     send: "./src/send/index.ts",
     receive: "./src/receive/index.ts",
+    about: "./src/about/index.ts",
   },
   devServer: {
     static: "./build",
@@ -50,6 +51,11 @@ var config = {
       filename: "receive.html",
       template: "src/receive/index.html",
       chunks: ["receive"],
+    }),
+    new HTMLWebpackPlugin({
+      filename: "about.html",
+      template: "src/about/index.html",
+      chunks: ["about"],
     }),
   ],
 }

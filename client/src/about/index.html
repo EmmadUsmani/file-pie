@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Mulish:wght@600&family=Source+Serif+Pro:ital,wght@0,400;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <title>File Pie</title>
+  </head>
+  <body class="flex-col">
+    <h1 id="title"><a href="/">File Pie</a></h1>
+    <a href="/">
+      <img id="logo" src="<%= require('../shared/logo.svg') %>" height="250" />
+    </a>
+    <section>
+      <p>
+        Hi, I'm
+        <a class="link" href="https://www.linkedin.com/in/emmadusmani/">Emmad</a
+        >. I created File Pie out of frustration with the friction in sending
+        files, both to my own devices and to other people. I was tired of
+        compressing files to send via email, only to get blocked by malware
+        filters, and uploading files to privately operated cloud storage
+        platforms, having to manually delete them later.
+      </p>
+      <br />
+      <p>
+        File Pie simplifies this process: simply upload a file then share a link
+        or QR code with the recipient.
+      </p>
+    </section>
+    <section>
+      <h2 class="section-heading">Privacy</h2>
+      <p>
+        File Pie works using
+        <a class="link" href="https://webrtc.org/">WebRTC</a>, a browser
+        protocal enabling peer to peer connections. This means that files are
+        transferred directly to recipients, without ever being sent to a server.
+        A signaling server is used to establish a connection between browsers,
+        but during this process no information about the file is sent to the
+        server. The app is completely
+        <a
+          class="link"
+          href="https://github.com/EmmadUsmani/webrtc-file-transfer#webrtc-file-transfer"
+          >open source</a
+        >.
+      </p>
+    </section>
+    <section>
+      <h2 class="section-heading">Inspiration</h2>
+      <p>
+        Two similar projects,
+        <a class="link" href="https://file.pizza/">File Pizza</a> and
+        <a class="link" href="https://www.sharedrop.io/">Sharedrop</a> served as
+        inspirations for File Pie. File Pizza in particular served as an
+        inspiration for the design and name. Code from both projects was
+        referenced during development, but no source code was used directly.
+      </p>
+    </section>
+    <section>
+      <h2 class="section-heading">Feedback</h2>
+      <p>
+        If you would like to report a bug or provide other feedback, please
+        submit an issue on
+        <a
+          class="link"
+          href="https://github.com/EmmadUsmani/webrtc-file-transfer/issues"
+          >GitHub</a
+        >.
+      </p>
+    </section>
+    <footer id="footer">
+      <a class="link" href="/about.html">About</a> ·
+      <a
+        class="link"
+        href="https://github.com/EmmadUsmani/webrtc-file-transfer#webrtc-file-transfer"
+        >GitHub</a
+      >
+    </footer>
+  </body>
+</html>

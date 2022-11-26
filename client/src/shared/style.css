@@ -13,6 +13,11 @@
 
 body {
   min-height: 100vh;
+  max-width: 1040px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 16px;
+  padding-right: 16px;
   text-align: center;
   font-family: "Source Serif Pro", serif;
   color: var(--text-color);
@@ -36,7 +41,13 @@ button {
 }
 
 a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+.link {
   color: var(--primary-color);
+  text-decoration: underline;
 }
 
 .flex-col {
@@ -51,6 +62,7 @@ a {
 }
 
 #title {
+  margin-top: 16px; /* todo: put vertical padding on body instead */
   font-family: "Caveat", cursive;
   font-size: 96px;
   font-weight: 700;

@@ -13,16 +13,19 @@
     <title>File Pie</title>
   </head>
   <body class="flex-col">
-    <h1 id="title">File Pie</h1>
-    <img id="logo" src="<%= require('../shared/logo.svg') %>" height="250" />
+    <h1 id="title"><a href="/">File Pie</a></h1>
+    <a href="/">
+      <img id="logo" src="<%= require('../shared/logo.svg') %>" height="250" />
+    </a>
     <div id="metadata" class="flex-col">
       <p id="file-name" class="subtitle">&nbsp</p>
       <p id="file-size">&nbsp</p>
     </div>
     <button id="download">Download</button>
     <footer id="footer">
-      <a href="/about">About</a> ·
+      <a class="link" href="/about.html">About</a> ·
       <a
+        class="link"
         href="https://github.com/EmmadUsmani/webrtc-file-transfer#webrtc-file-transfer"
         >GitHub</a
       >

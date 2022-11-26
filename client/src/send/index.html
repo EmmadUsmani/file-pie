@@ -13,8 +13,10 @@
     <title>File Pie</title>
   </head>
   <body class="flex-col">
-    <h1 id="title">File Pie</h1>
-    <img id="logo" src="<%= require('../shared/logo.svg') %>" height="250" />
+    <h1 id="title"><a href="/">File Pie</a></h1>
+    <a href="/">
+      <img id="logo" src="<%= require('../shared/logo.svg') %>" height="250" />
+    </a>
     <div id="intro" class="flex-col">
       <p id="caption" class="subtitle">
         Send files directly to recipients,<br />without your data being stored.
@@ -39,13 +41,13 @@
       </div>
       <div id="share" class="flex-col">
         <p>Share the link to send <span id="file-name">file</span>.</p>
-        <a id="link"></a>
+        <a class="link" id="link"></a>
       </div>
     </div>
-    <!-- TODO: implement about page -->
     <footer id="footer">
-      <a href="/about">About</a> ·
+      <a class="link" href="/about.html">About</a> ·
       <a
+        class="link"
         href="https://github.com/EmmadUsmani/webrtc-file-transfer#webrtc-file-transfer"
         >GitHub</a
       >
