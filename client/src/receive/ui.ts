@@ -1,4 +1,8 @@
-import { CHUNK_SIZE, FileMetadataMessage } from "../shared"
+import {
+  CHUNK_SIZE,
+  DownloadCompleteMessage,
+  FileMetadataMessage,
+} from "../shared"
 
 import { getReadableFileSize, isFinishedDownloading } from "./util"
 
@@ -57,18 +61,20 @@ export class UI {
   static clickDownload(
     chunks: Array<ArrayBuffer>,
     name: string,
-    size: number
+    size: number,
+    dataChannel: RTCDataChannel
   ): void {
     this._isDownloading = true
     this.getDownloadElem().innerText = "Downloading"
     this.getDownloadElem().className = "disabled"
-    this.updateDownloadProgress(chunks, name, size)
+    this.updateDownloadProgress(chunks, name, size, dataChannel)
   }
 
   static updateDownloadProgress(
     chunks: Array<ArrayBuffer>,
     name: string,
-    size: number
+    size: number,
+    dataChannel: RTCDataChannel
   ): void {
     if (!this._isDownloading) {
       return
@@ -83,6 +89,10 @@ export class UI {
       UI.downloadFile(chunks, name)
       this.getDownloadElem().innerText = "Re-download"
       this.getDownloadElem().className = ""
+      const downloadCompleteMessage: DownloadCompleteMessage = {
+        type: "download_complete",
+      }
+      dataChannel.send(JSON.stringify(downloadCompleteMessage))
     }
   }
 

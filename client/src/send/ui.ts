@@ -9,6 +9,8 @@ export class UI {
   static sendingElem = document.querySelector<HTMLDivElement>("#sending")
   static connectionsElem =
     document.querySelector<HTMLParagraphElement>("#connections")
+  static downloadsElem =
+    document.querySelector<HTMLParagraphElement>("#downloads")
   static linkElem = document.querySelector<HTMLAnchorElement>("#link")
   // TODO: implement file name
   // TODO: implement updating of downloads and transferred elements
@@ -49,18 +51,25 @@ export class UI {
     return this.sendingElem
   }
 
+  static getConnectionsElem(): HTMLParagraphElement {
+    if (!this.connectionsElem) {
+      throw Error("Connections element does not exist.")
+    }
+    return this.connectionsElem
+  }
+
+  static getDownloadsElem(): HTMLParagraphElement {
+    if (!this.downloadsElem) {
+      throw Error("Downloads element does not exist.")
+    }
+    return this.downloadsElem
+  }
+
   static getLinkElem(): HTMLAnchorElement {
     if (!this.linkElem) {
       throw Error("Link element does not exist.")
     }
     return this.linkElem
-  }
-
-  static getConnectionsElem(): HTMLParagraphElement {
-    if (!this.connectionsElem) {
-      throw Error("receivers element does not exist.")
-    }
-    return this.connectionsElem
   }
 
   static setRoomID(roomID: RoomID) {
@@ -83,5 +92,13 @@ export class UI {
     connectionsElem.innerText = Object.keys(
       Receivers.receivers
     ).length.toString()
+  }
+
+  static incrementDownloads(): void {
+    const downloads = parseInt(this.getDownloadsElem().innerText)
+    if (isNaN(downloads)) {
+      throw Error("Downloads is not a number.")
+    }
+    this.getDownloadsElem().innerText = `${downloads + 1}`
   }
 }

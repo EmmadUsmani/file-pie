@@ -36,13 +36,18 @@ peerConnection.ondatachannel = (event) => {
         metadata = parseFileMetadataMessage(event.data).content
         UI.displayFileMetadata(metadata)
         UI.getDownloadElem().onclick = () =>
-          UI.clickDownload(chunks, metadata.name, metadata.size)
+          UI.clickDownload(chunks, metadata.name, metadata.size, dataChannel)
       } catch (error) {
         console.error("Error parsing metadata")
       }
     } else {
       chunks.push(event.data)
-      UI.updateDownloadProgress(chunks, metadata.name, metadata.size)
+      UI.updateDownloadProgress(
+        chunks,
+        metadata.name,
+        metadata.size,
+        dataChannel
+      )
     }
   }
 }

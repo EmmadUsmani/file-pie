@@ -2,6 +2,7 @@ import { ClientID } from "@webrtc-file-transfer/shared"
 
 import { FileMetadataMessage, rtcConfig, CHUNK_SIZE } from "../shared"
 
+import { parseDownloadCompleteMessage } from "./parse"
 import { SendServer } from "./server"
 import { UI } from "./ui"
 
@@ -64,6 +65,17 @@ export class Receiver {
       }
       this.dataChannel.send(JSON.stringify(metadataMessage))
       void this._sendFile(file)
+    }
+
+    this.dataChannel.onmessage = (event) => {
+      if (typeof event.data === "string") {
+        try {
+          parseDownloadCompleteMessage(event.data)
+          UI.incrementDownloads()
+        } catch (error) {
+          console.error("Error parsing metadata.")
+        }
+      }
     }
   }
 

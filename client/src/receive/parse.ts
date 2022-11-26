@@ -8,6 +8,10 @@ export function parseFileMetadataMessage(data: string): FileMetadataMessage {
   }
   const obj = json as Record<string, unknown>
 
+  if (obj.type !== "file_metadata") {
+    throw Error("Type is not 'file_metadata'.")
+  }
+
   if (!obj.content) {
     throw Error("Data missing content")
   }

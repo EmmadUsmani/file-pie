@@ -1,6 +1,6 @@
 export interface Message {
   type: string
-  content: Record<string, unknown>
+  content?: Record<string, unknown>
 }
 
 export interface FileMetadataMessage extends Message {
@@ -11,4 +11,8 @@ export interface FileMetadataMessage extends Message {
     size: number
     lastModified: number
   }
+}
+
+export interface DownloadCompleteMessage extends Message {
+  type: "download_complete"
 }
