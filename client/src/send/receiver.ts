@@ -101,9 +101,9 @@ export class Receiver {
   async _sendFile(file: File) {
     const arrayBuffer = await file.arrayBuffer()
     for (let i = 0; i < Math.ceil(arrayBuffer.byteLength / CHUNK_SIZE); i++) {
-      this.dataChannel.send(
-        arrayBuffer.slice(i * CHUNK_SIZE, (i + 1) * CHUNK_SIZE)
-      )
+      const chunk = arrayBuffer.slice(i * CHUNK_SIZE, (i + 1) * CHUNK_SIZE)
+      this.dataChannel.send(chunk)
+      UI.incrementBytesTransferred(chunk.byteLength)
     }
   }
 }

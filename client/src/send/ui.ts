@@ -1,5 +1,7 @@
 import { RoomID } from "@webrtc-file-transfer/shared"
 
+import { getReadableFileSize } from "../shared"
+
 import { Receivers } from "./receiver"
 
 export class UI {
@@ -11,9 +13,11 @@ export class UI {
     document.querySelector<HTMLParagraphElement>("#connections")
   static downloadsElem =
     document.querySelector<HTMLParagraphElement>("#downloads")
+  static transferredElem =
+    document.querySelector<HTMLParagraphElement>("#transferred")
   static linkElem = document.querySelector<HTMLAnchorElement>("#link")
+  static bytesTransferred = 0
   // TODO: implement file name
-  // TODO: implement updating of downloads and transferred elements
 
   static getIntroElem(): HTMLDivElement {
     if (!this.introElem) {
@@ -65,6 +69,13 @@ export class UI {
     return this.downloadsElem
   }
 
+  static getTransferredElem(): HTMLParagraphElement {
+    if (!this.transferredElem) {
+      throw Error("Transferred element does not exist.")
+    }
+    return this.transferredElem
+  }
+
   static getLinkElem(): HTMLAnchorElement {
     if (!this.linkElem) {
       throw Error("Link element does not exist.")
@@ -95,10 +106,18 @@ export class UI {
   }
 
   static incrementDownloads(): void {
+    // todo: maybe store underlying state value for downloads like for transferred?
     const downloads = parseInt(this.getDownloadsElem().innerText)
     if (isNaN(downloads)) {
       throw Error("Downloads is not a number.")
     }
     this.getDownloadsElem().innerText = `${downloads + 1}`
+  }
+
+  static incrementBytesTransferred(bytes: number): void {
+    this.bytesTransferred += bytes
+    this.getTransferredElem().innerText = getReadableFileSize(
+      this.bytesTransferred
+    )
   }
 }

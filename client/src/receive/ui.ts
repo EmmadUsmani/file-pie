@@ -2,9 +2,10 @@ import {
   CHUNK_SIZE,
   DownloadCompleteMessage,
   FileMetadataMessage,
+  getReadableFileSize,
 } from "../shared"
 
-import { getReadableFileSize, isFinishedDownloading } from "./util"
+import { isFinishedDownloading } from "./util"
 
 export class UI {
   static _titleElem = document.querySelector<HTMLHeadingElement>("#title")
