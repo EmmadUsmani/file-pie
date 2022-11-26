@@ -4,7 +4,7 @@ import {
   ServerEvent,
 } from "@webrtc-file-transfer/shared"
 
-import { CHUNK_SIZE, FileMetadataMessage, rtcConfig } from "../shared"
+import { FileMetadataMessage, rtcConfig } from "../shared"
 
 import { parseFileMetadataMessage } from "./parse"
 import { ReceiveServer } from "./server"
@@ -35,15 +35,14 @@ peerConnection.ondatachannel = (event) => {
       try {
         metadata = parseFileMetadataMessage(event.data).content
         UI.displayFileMetadata(metadata)
+        UI.getDownloadElem().onclick = () =>
+          UI.clickDownload(chunks, metadata.name, metadata.size)
       } catch (error) {
         console.error("Error parsing metadata")
       }
     } else {
       chunks.push(event.data)
-      if (chunks.length === Math.ceil(metadata.size / CHUNK_SIZE)) {
-        // TODO: add additional metadata to file
-        UI.downloadFile(chunks, metadata.name)
-      }
+      UI.updateDownloadProgress(chunks, metadata.name, metadata.size)
     }
   }
 }
