@@ -11,6 +11,10 @@ import { ReceiveServer } from "./server"
 import { UI } from "./ui"
 import { getRoomID } from "./util"
 
+import "../shared/style.css"
+import "./style.css"
+import "../shared/logo.svg"
+
 // TODO: peerConnection code is very imperative, create an abstractions
 const peerConnection = new RTCPeerConnection(rtcConfig)
 

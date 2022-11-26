@@ -4,9 +4,28 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Download</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Mulish:wght@600&family=Source+Serif+Pro:ital,wght@0,400;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <title>File Pie</title>
   </head>
-  <body>
-    <h1 id="title">This is the download page.</h1>
+  <body class="flex-col">
+    <h1 id="title">File Pie</h1>
+    <img id="logo" src="<%= require('../shared/logo.svg') %>" height="250" />
+    <div id="metadata" class="flex-col">
+      <p id="file-name" class="subtitle"></p>
+      <p id="file-size"></p>
+    </div>
+    <button>Download</button>
+    <footer id="footer">
+      <a href="/about">About</a> ·
+      <a
+        href="https://github.com/EmmadUsmani/webrtc-file-transfer#webrtc-file-transfer"
+        >GitHub</a
+      >
+    </footer>
   </body>
 </html>
