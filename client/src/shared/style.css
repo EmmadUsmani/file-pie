@@ -74,6 +74,11 @@ a {
   font-size: 24px;
 }
 
+.subtitle-2 {
+  font-size: 20px;
+  font-style: italic;
+}
+
 #title {
   font-family: "Caveat", cursive;
   font-size: 96px;
@@ -84,4 +89,9 @@ a {
 #footer {
   margin-top: auto;
   font-size: 16px;
+}
+
+#error {
+  display: none;
+  gap: 8px;
 }

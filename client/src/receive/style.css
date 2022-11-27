@@ -2,11 +2,6 @@
   gap: 8px;
 }
 
-#file-size {
-  font-size: 20px;
-  font-style: italic;
-}
-
 .disabled {
   opacity: 50%;
   cursor: default;

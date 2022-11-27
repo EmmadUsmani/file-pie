@@ -4,7 +4,7 @@ import {
   ServerEvent,
 } from "@webrtc-file-transfer/shared"
 
-import { FileMetadataMessage, rtcConfig } from "../shared"
+import { FileMetadataMessage, rtcConfig, ErrorHandler } from "../shared"
 
 import { parseFileMetadataMessage } from "./parse"
 import { ReceiveServer } from "./server"
@@ -15,7 +15,9 @@ import "../shared/style.css"
 import "./style.css"
 import "../shared/logo.svg"
 
-// TODO: peerConnection code is very imperative, create an abstractions
+ErrorHandler.init()
+
+// TODO: peerConnection code is very imperative, create abstractions
 const peerConnection = new RTCPeerConnection(rtcConfig)
 
 peerConnection.onicecandidate = (event) => {

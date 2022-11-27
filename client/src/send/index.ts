@@ -7,6 +7,8 @@ import {
   ServerEvent,
 } from "@webrtc-file-transfer/shared"
 
+import { ErrorHandler } from "../shared"
+
 import { Receivers } from "./receiver"
 import { SendServer } from "./server"
 import { UI } from "./ui"
@@ -14,6 +16,8 @@ import { UI } from "./ui"
 import "../shared/style.css"
 import "./style.css"
 import "../shared/logo.svg"
+
+ErrorHandler.init()
 
 const buttonElem = UI.getButtonElem()
 const fileInputElem = UI.getFileInputElem()

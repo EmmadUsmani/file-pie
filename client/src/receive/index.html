@@ -17,11 +17,25 @@
     <a href="/">
       <img id="logo" src="<%= require('../shared/logo.svg') %>" height="250" />
     </a>
-    <div id="metadata" class="flex-col">
-      <p id="file-name" class="subtitle">&nbsp</p>
-      <p id="file-size">&nbsp</p>
+    <div id="content" class="flex-col">
+      <div id="metadata" class="flex-col">
+        <p id="file-name" class="subtitle">&nbsp</p>
+        <p id="file-size" class="subtitle-2">&nbsp</p>
+      </div>
+      <button id="download">Download</button>
     </div>
-    <button id="download">Download</button>
+    <div id="error" class="flex-col">
+      <p class="subtitle">Oops! Something went wrong.</p>
+      <p>
+        Submit an
+        <a
+          class="link"
+          href="https://github.com/EmmadUsmani/webrtc-file-transfer/issues"
+          >issue</a
+        >
+        on GitHub to report a bug.
+      </p>
+    </div>
     <footer id="footer">
       <a class="link" href="/about.html">About</a> ·
       <a

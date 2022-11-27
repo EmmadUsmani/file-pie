@@ -17,32 +17,47 @@
     <a href="/">
       <img id="logo" src="<%= require('../shared/logo.svg') %>" height="250" />
     </a>
-    <div id="intro" class="flex-col">
-      <p id="caption" class="subtitle">
-        Send files directly to recipients,<br />without your data being stored.
-      </p>
-      <button id="upload">Upload</button>
-      <input type="file" id="file-input" />
+    <div id="content" class="flex-col">
+      <div id="intro" class="flex-col">
+        <p id="caption" class="subtitle">
+          Send files directly to recipients,<br />without your data being
+          stored.
+        </p>
+        <button id="upload">Upload</button>
+        <input type="file" id="file-input" />
+      </div>
+      <div id="sending" class="flex-col">
+        <div id="statistics" class="flex-col">
+          <div class="statistic">
+            <p>Connections</p>
+            <p id="connections">0</p>
+          </div>
+          <div class="statistic">
+            <p>Downloads</p>
+            <p id="downloads">0</p>
+          </div>
+          <div class="statistic">
+            <p>Transferred</p>
+            <p id="transferred">0</p>
+          </div>
+        </div>
+        <div id="share" class="flex-col">
+          <p>Share the link to send <b id="file-name"></b>.</p>
+          <a class="link" id="link"></a>
+        </div>
+      </div>
     </div>
-    <div id="sending" class="flex-col">
-      <div id="statistics" class="flex-col">
-        <div class="statistic">
-          <p>Connections</p>
-          <p id="connections">0</p>
-        </div>
-        <div class="statistic">
-          <p>Downloads</p>
-          <p id="downloads">0</p>
-        </div>
-        <div class="statistic">
-          <p>Transferred</p>
-          <p id="transferred">0</p>
-        </div>
-      </div>
-      <div id="share" class="flex-col">
-        <p>Share the link to send <b id="file-name"></b>.</p>
-        <a class="link" id="link"></a>
-      </div>
+    <div id="error" class="flex-col">
+      <p class="subtitle">Oops! Something went wrong.</p>
+      <p class="subtitle-2">
+        Submit an
+        <a
+          class="link"
+          href="https://github.com/EmmadUsmani/webrtc-file-transfer/issues"
+          >issue</a
+        >
+        on GitHub to report a bug.
+      </p>
     </div>
     <footer id="footer">
       <a class="link" href="/about.html">About</a> ·
