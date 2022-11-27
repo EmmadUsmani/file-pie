@@ -20,16 +20,12 @@
 }
 
 #share {
-  gap: 16px;
+  box-sizing: border-box;
+  align-items: start;
+  text-align: left;
+  width: 550px;
+  gap: 8px;
   padding: 16px;
   border-radius: 8px;
   background-color: var(--secondary-background-color);
 }
-
-/* #roomID {
-  display: none;
-}
-
-#receivers {
-  display: none;
-} */

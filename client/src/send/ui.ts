@@ -15,9 +15,9 @@ export class UI {
     document.querySelector<HTMLParagraphElement>("#downloads")
   static transferredElem =
     document.querySelector<HTMLParagraphElement>("#transferred")
+  static fileNameElem = document.querySelector<HTMLElement>("#file-name")
   static linkElem = document.querySelector<HTMLAnchorElement>("#link")
   static bytesTransferred = 0
-  // TODO: implement file name
 
   static getIntroElem(): HTMLDivElement {
     if (!this.introElem) {
@@ -76,6 +76,13 @@ export class UI {
     return this.transferredElem
   }
 
+  static getFileNameElem(): HTMLElement {
+    if (!this.fileNameElem) {
+      throw Error("File name element does not exist.")
+    }
+    return this.fileNameElem
+  }
+
   static getLinkElem(): HTMLAnchorElement {
     if (!this.linkElem) {
       throw Error("Link element does not exist.")
@@ -89,6 +96,8 @@ export class UI {
 
     const sendingElem = this.getSendingElem()
     sendingElem.style.display = "flex"
+
+    this.getFileNameElem().innerText = this.getFile().name
 
     const linkElem = this.getLinkElem()
     // TODO: dynamically set domain name based on environment
