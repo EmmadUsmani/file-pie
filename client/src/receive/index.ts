@@ -4,8 +4,9 @@ import {
   ServerEvent,
 } from "@webrtc-file-transfer/shared"
 
-import { FileMetadataMessage, rtcConfig, ErrorHandler } from "../shared"
+import { FileMetadataMessage, rtcConfig } from "../shared"
 
+import { ReceiveErrorHandler } from "./error"
 import { parseFileMetadataMessage } from "./parse"
 import { ReceiveServer } from "./server"
 import { UI } from "./ui"
@@ -15,7 +16,7 @@ import "../shared/style.css"
 import "./style.css"
 import "../shared/logo.svg"
 
-ErrorHandler.init()
+ReceiveErrorHandler.init()
 
 // TODO: peerConnection code is very imperative, create abstractions
 const peerConnection = new RTCPeerConnection(rtcConfig)
@@ -58,7 +59,7 @@ peerConnection.ondatachannel = (event) => {
 ReceiveServer.joinRoom(getRoomID())
 
 ReceiveServer.listen(ServerEvent.RoomNotFound, () => {
-  UI.displayMessage("Room not found.")
+  ReceiveErrorHandler.displayRoomNotFoundError()
 })
 
 ReceiveServer.listen(ServerEvent.RoomJoined, () => {
@@ -66,7 +67,7 @@ ReceiveServer.listen(ServerEvent.RoomJoined, () => {
 })
 
 ReceiveServer.listen(ServerEvent.SenderLeft, () => {
-  UI.displayMessage("Sender left room.")
+  ReceiveErrorHandler.displaySenderLeftError()
 })
 
 ReceiveServer.listen(ServerEvent.OfferSent, async (data: OfferSentData) => {

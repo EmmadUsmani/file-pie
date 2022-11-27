@@ -1,6 +1,10 @@
 export class ErrorHandler {
   static _contentElem = document.querySelector<HTMLDivElement>("#content")
   static _errorElem = document.querySelector<HTMLDivElement>("#error")
+  static _errorSubtitleElem =
+    document.querySelector<HTMLParagraphElement>("#error-subtitle")
+  static _errorSubtitle2Elem =
+    document.querySelector<HTMLParagraphElement>("#error-subtitle-2")
 
   static getContentElem(): HTMLDivElement {
     if (!this._contentElem) {
@@ -16,10 +20,32 @@ export class ErrorHandler {
     return this._errorElem
   }
 
+  static getErrorSubtitleElem(): HTMLDivElement {
+    if (!this._errorSubtitleElem) {
+      throw Error("Error subtitle element does not exist.")
+    }
+    return this._errorSubtitleElem
+  }
+
+  static getErrorSubtitle2Elem(): HTMLDivElement {
+    if (!this._errorSubtitle2Elem) {
+      throw Error("Error subtitle element does not exist.")
+    }
+    return this._errorSubtitle2Elem
+  }
+
+  static displayErrorMessage(subtitle?: string, subtitle2?: string): void {
+    if (subtitle !== undefined) {
+      this.getErrorSubtitleElem().innerText = subtitle
+    }
+    if (subtitle2 !== undefined) {
+      this.getErrorSubtitle2Elem().innerText = subtitle2
+    }
+    this.getContentElem().style.display = "none"
+    this.getErrorElem().style.display = "flex"
+  }
+
   static init(): void {
-    window.addEventListener("error", () => {
-      this.getContentElem().style.display = "none"
-      this.getErrorElem().style.display = "flex"
-    })
+    window.addEventListener("error", () => this.displayErrorMessage())
   }
 }

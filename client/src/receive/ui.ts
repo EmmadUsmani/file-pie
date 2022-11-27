@@ -14,7 +14,7 @@ export class UI {
   static _fileSizeElem =
     document.querySelector<HTMLParagraphElement>("#file-size")
   static _downloadElem = document.querySelector<HTMLButtonElement>("#download")
-  static _isDownloading = false
+  static _isDownloading = false // todo rename clickedDownload
 
   // TODO consider not making getters private
   static _getTitleElem(): HTMLHeadingElement {
