@@ -6,9 +6,23 @@
   --secondary-background-color: rgba(225, 216, 211, 0.25);
 }
 
-* {
+/* All elements should use border-box sizing to include padding in height/width,
+except when overriden by their parent.
+
+See: 
+- https://www.paulirish.com/2012/box-sizing-border-box-ftw/
+- https://stackoverflow.com/a/64635516
+*/
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
   margin: 0;
   padding: 0;
+  box-sizing: inherit;
 }
 
 body {
@@ -16,8 +30,7 @@ body {
   max-width: 1040px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 16px;
-  padding-right: 16px;
+  padding: 16px;
   text-align: center;
   font-family: "Source Serif Pro", serif;
   color: var(--text-color);
@@ -62,7 +75,6 @@ a {
 }
 
 #title {
-  margin-top: 16px; /* todo: put vertical padding on body instead */
   font-family: "Caveat", cursive;
   font-size: 96px;
   font-weight: 700;
@@ -71,6 +83,5 @@ a {
 
 #footer {
   margin-top: auto;
-  margin-bottom: 16px;
   font-size: 16px;
 }
