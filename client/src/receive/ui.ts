@@ -14,7 +14,8 @@ export class UI {
   static _fileSizeElem =
     document.querySelector<HTMLParagraphElement>("#file-size")
   static _downloadElem = document.querySelector<HTMLButtonElement>("#download")
-  static _isDownloading = false // todo rename clickedDownload
+  static _fileDownloaded = false
+  static _clickedDownload = false
 
   // TODO consider not making getters private
   static _getTitleElem(): HTMLHeadingElement {
@@ -45,6 +46,10 @@ export class UI {
     return this._downloadElem
   }
 
+  static getFileDownloaded(): boolean {
+    return this._fileDownloaded
+  }
+
   static displayMessage(message: string): void {
     // TODO: replace with better error handling
     console.log(message)
@@ -65,7 +70,7 @@ export class UI {
     size: number,
     dataChannel: RTCDataChannel
   ): void {
-    this._isDownloading = true
+    this._clickedDownload = true
     this.getDownloadElem().innerText = "Downloading"
     this.getDownloadElem().className = "disabled"
     this.updateDownloadProgress(chunks, name, size, dataChannel)
@@ -77,7 +82,10 @@ export class UI {
     size: number,
     dataChannel: RTCDataChannel
   ): void {
-    if (!this._isDownloading) {
+    if (isFinishedDownloading(chunks, size)) {
+      this._fileDownloaded = true
+    }
+    if (!this._clickedDownload) {
       return
     }
     const percent = Math.round(((chunks.length * CHUNK_SIZE) / size) * 100)
@@ -86,7 +94,7 @@ export class UI {
       chunks.length * CHUNK_SIZE
     )} / ${getReadableFileSize(size)} · ${percent}%`
 
-    if (isFinishedDownloading(chunks, size)) {
+    if (this.getFileDownloaded()) {
       UI.downloadFile(chunks, name)
       this.getDownloadElem().innerText = "Re-download"
       this.getDownloadElem().className = ""

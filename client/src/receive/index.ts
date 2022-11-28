@@ -67,7 +67,9 @@ ReceiveServer.listen(ServerEvent.RoomJoined, () => {
 })
 
 ReceiveServer.listen(ServerEvent.SenderLeft, () => {
-  ReceiveErrorHandler.displaySenderLeftError()
+  if (!UI.getFileDownloaded()) {
+    ReceiveErrorHandler.displaySenderLeftError()
+  }
 })
 
 ReceiveServer.listen(ServerEvent.OfferSent, async (data: OfferSentData) => {
