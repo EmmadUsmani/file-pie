@@ -1,7 +1,7 @@
 import { ClientID, Room, RoomID } from "@webrtc-file-transfer/shared"
 
-import { ExtendedSocket } from "./types"
-import { generateRoomID } from "./utils" // TODO (refactor): consider making this method of Rooms class
+import { ExtendedSocket } from "@server/types"
+import { generateRoomID } from "@server/utils" // TODO (refactor): consider making this method of Rooms class
 
 import { io } from "."
 

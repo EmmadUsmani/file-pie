@@ -9,10 +9,10 @@ import {
   ServerEvent,
 } from "@webrtc-file-transfer/shared"
 
-import { io } from "../.."
-import { Rooms } from "../../rooms"
-import { ExtendedSocket } from "../../types"
-import { registerHandler } from "../../utils"
+import { io } from "@server/."
+import { Rooms } from "@server/rooms"
+import { ExtendedSocket } from "@server/types"
+import { registerHandler } from "@server/utils"
 
 export function registerReceiverHandlers(socket: ExtendedSocket) {
   registerHandler(socket, ServerEvent.JoinRoom, (data: JoinRoomData) => {

@@ -1,6 +1,4 @@
-import { Socket } from "socket.io"
-
-import { ExtendedSocket } from "../../types"
+import { ExtendedSocket } from "@server/types"
 
 import { registerReceiverHandlers } from "./receiver"
 import { registerSenderHandlers } from "./sender"

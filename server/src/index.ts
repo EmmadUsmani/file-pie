@@ -4,7 +4,7 @@ import * as path from "path"
 import express from "express"
 import { Server } from "socket.io"
 
-import { registerHandlers } from "./handlers"
+import { registerHandlers } from "@server/handlers"
 
 const app = express()
 const httpServer = createServer(app)
