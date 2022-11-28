@@ -3,6 +3,8 @@ import {
   OfferSentData,
   ServerEvent,
 } from "@webrtc-file-transfer/shared"
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import adapter from "webrtc-adapter"
 
 import { FileMetadataMessage, rtcConfig } from "../shared"
 

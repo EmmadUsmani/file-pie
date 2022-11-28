@@ -6,6 +6,8 @@ import {
   RoomCreatedData,
   ServerEvent,
 } from "@webrtc-file-transfer/shared"
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import adapter from "webrtc-adapter"
 
 import { ErrorHandler } from "../shared"
 
