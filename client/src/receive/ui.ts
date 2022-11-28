@@ -117,10 +117,13 @@ export class UI {
     if (!this._clickedDownload) {
       return
     }
-    const percent = Math.round(((chunks.length * CHUNK_SIZE) / size) * 100)
+    const percent = Math.min(
+      Math.round(((chunks.length * CHUNK_SIZE) / size) * 100),
+      100
+    )
 
     this._getFileSizeElem().innerText = `${getReadableFileSize(
-      chunks.length * CHUNK_SIZE
+      Math.min(chunks.length * CHUNK_SIZE, size)
     )} / ${getReadableFileSize(size)} · ${percent}%`
 
     if (this.getFileDownloaded()) {
