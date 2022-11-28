@@ -5,6 +5,7 @@ export class ErrorHandler {
     document.querySelector<HTMLParagraphElement>("#error-subtitle")
   static _errorSubtitle2Elem =
     document.querySelector<HTMLParagraphElement>("#error-subtitle-2")
+  static _loadingElem = document.querySelector<HTMLDivElement>("#loading")
 
   static getContentElem(): HTMLDivElement {
     if (!this._contentElem) {
@@ -34,6 +35,13 @@ export class ErrorHandler {
     return this._errorSubtitle2Elem
   }
 
+  static getLoadingElem(): HTMLDivElement {
+    if (!this._loadingElem) {
+      throw Error("Loading element does not exist.")
+    }
+    return this._loadingElem
+  }
+
   static displayErrorMessage(subtitle?: string, subtitle2?: string): void {
     if (subtitle !== undefined) {
       this.getErrorSubtitleElem().innerText = subtitle
@@ -41,6 +49,7 @@ export class ErrorHandler {
     if (subtitle2 !== undefined) {
       this.getErrorSubtitle2Elem().innerText = subtitle2
     }
+    this.getLoadingElem().style.display = "none"
     this.getContentElem().style.display = "none"
     this.getErrorElem().style.display = "flex"
   }

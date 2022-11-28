@@ -5,6 +5,7 @@ import { getReadableFileSize } from "../shared"
 import { Receivers } from "./receiver"
 
 export class UI {
+  static contentElem = document.querySelector<HTMLDivElement>("#content")
   static introElem = document.querySelector<HTMLDivElement>("#intro")
   static buttonElem = document.querySelector<HTMLButtonElement>("#upload")
   static fileInputElem = document.querySelector<HTMLInputElement>("#file-input")
@@ -17,7 +18,16 @@ export class UI {
     document.querySelector<HTMLParagraphElement>("#transferred")
   static fileNameElem = document.querySelector<HTMLElement>("#file-name")
   static linkElem = document.querySelector<HTMLAnchorElement>("#link")
+  static loadingElem = document.querySelector<HTMLDivElement>("#loading")
+
   static bytesTransferred = 0
+
+  static getContentElem(): HTMLDivElement {
+    if (!this.contentElem) {
+      throw Error("Content element does not exist.")
+    }
+    return this.contentElem
+  }
 
   static getIntroElem(): HTMLDivElement {
     if (!this.introElem) {
@@ -90,7 +100,26 @@ export class UI {
     return this.linkElem
   }
 
+  static getLoadingElem(): HTMLDivElement {
+    if (!this.loadingElem) {
+      throw Error("Loading element does not exist.")
+    }
+    return this.loadingElem
+  }
+
+  static showLoadingElem(): void {
+    this.getContentElem().style.display = "none"
+    this.getLoadingElem().style.display = "inline-block"
+  }
+
+  static hideLoadingElem(): void {
+    this.getLoadingElem().style.display = "none"
+    this.getContentElem().style.display = "flex"
+  }
+
   static setRoomID(roomID: RoomID) {
+    this.hideLoadingElem()
+
     const introElem = this.getIntroElem()
     introElem.style.display = "none"
 

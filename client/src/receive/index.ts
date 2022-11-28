@@ -13,10 +13,12 @@ import { UI } from "./ui"
 import { getRoomID } from "./util"
 
 import "../shared/style.css"
+import "../shared/loading.css"
 import "./style.css"
 import "../shared/logo.svg"
 
 ReceiveErrorHandler.init()
+UI.showLoadingElem()
 
 // TODO: peerConnection code is very imperative, create abstractions
 const peerConnection = new RTCPeerConnection(rtcConfig)

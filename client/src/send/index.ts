@@ -14,6 +14,7 @@ import { SendServer } from "./server"
 import { UI } from "./ui"
 
 import "../shared/style.css"
+import "../shared/loading.css"
 import "./style.css"
 import "../shared/logo.svg"
 
@@ -28,7 +29,7 @@ fileInputElem.addEventListener("change", () => {
   // TODO: better abstraction for storing state (roomID, file)
   if (fileInputElem.files && !UI.getLinkElem().innerText) {
     SendServer.createRoom()
-    // TODO: show loader while waiting for RoomCreated event
+    UI.showLoadingElem()
   }
 })
 

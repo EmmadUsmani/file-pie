@@ -86,12 +86,16 @@ a {
   color: var(--primary-color);
 }
 
-#footer {
-  margin-top: auto;
-  font-size: 16px;
-}
-
 #error {
   display: none;
   gap: 8px;
+}
+
+#loading {
+  display: none;
+}
+
+#footer {
+  margin-top: auto;
+  font-size: 16px;
 }

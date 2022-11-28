@@ -8,14 +8,24 @@ import {
 import { isFinishedDownloading } from "./util"
 
 export class UI {
+  static _contentElem = document.querySelector<HTMLDivElement>("#content")
   static _titleElem = document.querySelector<HTMLHeadingElement>("#title")
   static _fileNameElem =
     document.querySelector<HTMLParagraphElement>("#file-name")
   static _fileSizeElem =
     document.querySelector<HTMLParagraphElement>("#file-size")
   static _downloadElem = document.querySelector<HTMLButtonElement>("#download")
+  static _loadingElem = document.querySelector<HTMLDivElement>("#loading")
+
   static _fileDownloaded = false
   static _clickedDownload = false
+
+  static getContentElem(): HTMLDivElement {
+    if (!this._contentElem) {
+      throw Error("Content element does not exist.")
+    }
+    return this._contentElem
+  }
 
   // TODO consider not making getters private
   static _getTitleElem(): HTMLHeadingElement {
@@ -46,6 +56,23 @@ export class UI {
     return this._downloadElem
   }
 
+  static getLoadingElem(): HTMLDivElement {
+    if (!this._loadingElem) {
+      throw Error("Loading element does not exist.")
+    }
+    return this._loadingElem
+  }
+
+  static showLoadingElem(): void {
+    this.getContentElem().style.display = "none"
+    this.getLoadingElem().style.display = "inline-block"
+  }
+
+  static hideLoadingElem(): void {
+    this.getLoadingElem().style.display = "none"
+    this.getContentElem().style.display = "flex"
+  }
+
   static getFileDownloaded(): boolean {
     return this._fileDownloaded
   }
@@ -57,6 +84,8 @@ export class UI {
 
   static displayFileMetadata(metadata: FileMetadataMessage["content"]): void {
     const { name, type, size, lastModified } = metadata
+
+    UI.hideLoadingElem()
     this.displayMessage(
       name + " " + type + " " + String(size) + " " + String(lastModified)
     )
