@@ -1,5 +1,6 @@
 const path = require("path")
 const HTMLWebpackPlugin = require("html-webpack-plugin")
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 
 var config = {
   entry: {
@@ -15,33 +16,10 @@ var config = {
       target: "http://localhost:3000",
     },
   },
-  module: {
-    rules: [
-      {
-        test: /\.ts$/,
-        use: "ts-loader",
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        type: "asset/resource",
-      },
-    ],
-  },
-  resolve: {
-    extensions: [".ts", ".js"],
-  },
-  output: {
-    path: path.resolve(__dirname, "./build"),
-    filename: "[name].bundle_[chunkhash].js",
-    clean: true,
-  },
   plugins: [
+    new MiniCssExtractPlugin({
+      filename: "[name].bundle_[chunkhash].css",
+    }),
     new HTMLWebpackPlugin({
       filename: "index.html",
       template: "src/send/index.html",
@@ -58,6 +36,31 @@ var config = {
       chunks: ["about"],
     }),
   ],
+  module: {
+    rules: [
+      {
+        test: /\.ts$/,
+        use: "ts-loader",
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.css$/,
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: "asset/resource",
+      },
+    ],
+  },
+  resolve: {
+    extensions: [".ts", ".js"],
+  },
+  output: {
+    path: path.resolve(__dirname, "./build"),
+    filename: "[name].bundle_[chunkhash].js",
+    clean: true,
+  },
 }
 
 module.exports = (env, argv) => {
