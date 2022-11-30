@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../shared"
+import { ErrorHandler } from "@shared/."
 
 export class ReceiveErrorHandler extends ErrorHandler {
   static displayRoomNotFoundError(): void {

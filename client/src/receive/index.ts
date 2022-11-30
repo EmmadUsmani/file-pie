@@ -6,7 +6,7 @@ import {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import adapter from "webrtc-adapter"
 
-import { FileMetadataMessage, rtcConfig } from "../shared"
+import { FileMetadataMessage, rtcConfig } from "@shared/."
 
 import { ReceiveErrorHandler } from "./error"
 import { parseFileMetadataMessage } from "./parse"
@@ -14,10 +14,10 @@ import { ReceiveServer } from "./server"
 import { UI } from "./ui"
 import { getRoomID } from "./util"
 
-import "../shared/style.css"
-import "../shared/loading.css"
+import "@shared/style.css"
+import "@shared/loading.css"
 import "./style.css"
-import "../shared/logo.svg"
+import "@shared/logo.svg"
 
 ReceiveErrorHandler.init()
 UI.showLoadingElem()

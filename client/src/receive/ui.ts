@@ -3,7 +3,7 @@ import {
   DownloadCompleteMessage,
   FileMetadataMessage,
   getReadableFileSize,
-} from "../shared"
+} from "@shared/."
 
 import { isFinishedDownloading } from "./util"
 

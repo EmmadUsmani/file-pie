@@ -1,6 +1,7 @@
 const path = require("path")
 const HTMLWebpackPlugin = require("html-webpack-plugin")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin")
 
 var config = {
   entry: {
@@ -54,6 +55,7 @@ var config = {
     ],
   },
   resolve: {
+    plugins: [new TsconfigPathsPlugin()],
     extensions: [".ts", ".js"],
   },
   output: {

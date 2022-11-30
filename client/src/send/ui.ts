@@ -1,6 +1,6 @@
 import { RoomID } from "@webrtc-file-transfer/shared"
 
-import { getReadableFileSize } from "../shared"
+import { getReadableFileSize } from "@shared/."
 
 import { Receivers } from "./receiver"
 

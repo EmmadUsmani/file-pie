@@ -1,6 +1,6 @@
 import { RoomID } from "@webrtc-file-transfer/shared"
 
-import { CHUNK_SIZE } from "../shared"
+import { CHUNK_SIZE } from "@shared/."
 
 export function getRoomID(): RoomID {
   const searchParams = new URLSearchParams(window.location.search)

@@ -1,4 +1,4 @@
-import { FileMetadataMessage } from "../shared"
+import { FileMetadataMessage } from "@shared/."
 
 // TODO: improve parsing code
 export function parseFileMetadataMessage(data: string): FileMetadataMessage {

@@ -1,6 +1,6 @@
 import { ClientID } from "@webrtc-file-transfer/shared"
 
-import { FileMetadataMessage, rtcConfig, CHUNK_SIZE } from "../shared"
+import { FileMetadataMessage, rtcConfig, CHUNK_SIZE } from "@shared/."
 
 import { parseDownloadCompleteMessage } from "./parse"
 import { SendServer } from "./server"

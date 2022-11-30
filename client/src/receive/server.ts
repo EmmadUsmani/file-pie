@@ -6,7 +6,7 @@ import {
   ServerEvent,
 } from "@webrtc-file-transfer/shared"
 
-import { Server } from "../shared"
+import { Server } from "@shared/."
 
 export class ReceiveServer extends Server {
   static joinRoom(roomID: RoomID) {

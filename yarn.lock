@@ -717,6 +717,7 @@ __metadata:
     html-webpack-plugin: ^5.3.2
     socket.io-client: ^4.2.0
     ts-loader: ^9.2.5
+    tsconfig-paths-webpack-plugin: ^4.0.0
     typescript: ^4.4.3
     webpack: ^5.52.1
     webpack-cli: ^4.8.0
@@ -2177,6 +2178,16 @@ __metadata:
     graceful-fs: ^4.2.4
     tapable: ^2.2.0
   checksum: 6e871ec5b183220dbcdaff8580cbdacee5425e321790e5846abd1b573d20d2bcb37f73ee983fd10c6d6878d31a2d08e234e72fc91a81236d64623ee6ba7d6611
+  languageName: node
+  linkType: hard
+
+"enhanced-resolve@npm:^5.7.0":
+  version: 5.12.0
+  resolution: "enhanced-resolve@npm:5.12.0"
+  dependencies:
+    graceful-fs: ^4.2.4
+    tapable: ^2.2.0
+  checksum: bf3f787facaf4ce3439bef59d148646344e372bef5557f0d37ea8aa02c51f50a925cd1f07b8d338f18992c29f544ec235a8c64bcdb56030196c48832a5494174
   languageName: node
   linkType: hard
 
@@ -6327,6 +6338,17 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
+"tsconfig-paths-webpack-plugin@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "tsconfig-paths-webpack-plugin@npm:4.0.0"
+  dependencies:
+    chalk: ^4.1.0
+    enhanced-resolve: ^5.7.0
+    tsconfig-paths: ^4.0.0
+  checksum: 7ff7d63c1153e6dd30ce660b006495ae5cb5cbb78b30bb59b3cb627567325d4af52c7a69dda8aec7b94d576f5385581a69307472992954c40fe6949564155397
+  languageName: node
+  linkType: hard
+
 "tsconfig-paths@npm:^3.11.0, tsconfig-paths@npm:^3.9.0":
   version: 3.11.0
   resolution: "tsconfig-paths@npm:3.11.0"
@@ -6339,7 +6361,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"tsconfig-paths@npm:^4.1.0":
+"tsconfig-paths@npm:^4.0.0, tsconfig-paths@npm:^4.1.0":
   version: 4.1.0
   resolution: "tsconfig-paths@npm:4.1.0"
   dependencies:

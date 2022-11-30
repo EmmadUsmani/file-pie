@@ -1,4 +1,4 @@
-import { DownloadCompleteMessage } from "../shared"
+import { DownloadCompleteMessage } from "@shared/."
 
 // TODO: improve parsing code
 export function parseDownloadCompleteMessage(

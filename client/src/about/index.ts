@@ -1,2 +1,2 @@
-import "../shared/style.css"
+import "@shared/style.css"
 import "./style.css"

@@ -9,16 +9,16 @@ import {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import adapter from "webrtc-adapter"
 
-import { ErrorHandler } from "../shared"
+import { ErrorHandler } from "@shared/."
 
 import { Receivers } from "./receiver"
 import { SendServer } from "./server"
 import { UI } from "./ui"
 
-import "../shared/style.css"
-import "../shared/loading.css"
+import "@shared/style.css"
+import "@shared/loading.css"
 import "./style.css"
-import "../shared/logo.svg"
+import "@shared/logo.svg"
 
 ErrorHandler.init()
 
