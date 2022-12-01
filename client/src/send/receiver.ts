@@ -17,11 +17,13 @@ export class Receivers {
 
   static addReceiver(receiverID: ClientID) {
     this.receivers[receiverID] = new Receiver(receiverID)
+    UI.updateReceivers()
   }
 
   static removeReceiver(receiverID: ClientID) {
     this.receivers[receiverID].destructor()
     delete this.receivers[receiverID]
+    UI.updateReceivers()
   }
 
   static getReceiver(receiverID: ClientID) {

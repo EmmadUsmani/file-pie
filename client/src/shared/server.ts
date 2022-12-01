@@ -14,18 +14,3 @@ export class Server {
     this.socket.off(event, listener)
   }
 }
-
-export class ListenerGroup {
-  listeners: Array<[ServerEvent, ServerEventListener]> = []
-
-  listen(event: ServerEvent, listener: ServerEventListener) {
-    Server.listen(event, listener)
-    this.listeners.push([event, listener])
-  }
-
-  removeListeners() {
-    for (const [event, listener] of this.listeners) {
-      Server.removeListener(event, listener)
-    }
-  }
-}
