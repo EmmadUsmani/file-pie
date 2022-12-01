@@ -5,9 +5,9 @@ import {
   rtcConfig,
   CHUNK_SIZE,
   ClientLogger,
+  DownloadCompleteMessage,
 } from "@shared/."
 
-import { parseDownloadCompleteMessage } from "./parse"
 import { SendServer } from "./server"
 import { UI } from "./ui"
 
@@ -55,24 +55,19 @@ export class Receiver {
 
     this.dataChannel.onopen = () => {
       const file = UI.getFile()
-      /* TODO: Defining the type field to be "file_metadata" and having
-      to manually write that here seems like an antipattern. Should there
-      be a class so the constructor can do that instead of doing it here? */
-      const metadataMessage: FileMetadataMessage = {
-        type: "file_metadata",
-        content: {
-          name: file.name,
-          type: file.type,
-          size: file.size,
-          lastModified: file.lastModified,
-        },
-      }
-      this.dataChannel.send(JSON.stringify(metadataMessage))
+
+      const metadataMessage = new FileMetadataMessage({
+        name: file.name,
+        type: file.type,
+        size: file.size,
+        lastModified: file.lastModified,
+      })
+      this.dataChannel.send(metadataMessage.serialize())
 
       ClientLogger.debug(
         "sent FileMetadataMessage to receiver",
         `receiverID: ${this.receiverID}`,
-        `message: ${JSON.stringify(metadataMessage)}`
+        `message: ${metadataMessage.serialize()}`
       )
 
       void this._sendFile(file)
@@ -81,7 +76,7 @@ export class Receiver {
     this.dataChannel.onmessage = (event) => {
       if (typeof event.data === "string") {
         try {
-          parseDownloadCompleteMessage(event.data)
+          DownloadCompleteMessage.parse(event.data)
           UI.incrementDownloads()
         } catch (error) {
           console.error("Error parsing metadata.")
@@ -94,18 +89,18 @@ export class Receiver {
     this.peerConnection.close()
   }
 
-  async _sendOffer() {
-    const offer = await this.peerConnection.createOffer()
-    void this.peerConnection.setLocalDescription(offer)
-    SendServer.sendOffer(offer, this.receiverID)
-  }
-
   acceptAnswer(answer: RTCSessionDescriptionInit) {
     void this.peerConnection.setRemoteDescription(answer)
   }
 
   addIceCandidate(iceCandidate: RTCIceCandidate) {
     void this.peerConnection.addIceCandidate(iceCandidate)
+  }
+
+  async _sendOffer() {
+    const offer = await this.peerConnection.createOffer()
+    void this.peerConnection.setLocalDescription(offer)
+    SendServer.sendOffer(offer, this.receiverID)
   }
 
   async _sendFile(file: File) {

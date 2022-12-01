@@ -122,10 +122,7 @@ export class UI {
       UI.downloadFile(chunks, name)
       this.getDownloadElem().innerText = "Re-download"
       this.getDownloadElem().className = ""
-      const downloadCompleteMessage: DownloadCompleteMessage = {
-        type: "download_complete",
-      }
-      dataChannel.send(JSON.stringify(downloadCompleteMessage))
+      dataChannel.send(new DownloadCompleteMessage().serialize())
     }
   }
 

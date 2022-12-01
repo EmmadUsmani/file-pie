@@ -9,7 +9,6 @@ import adapter from "webrtc-adapter"
 import { FileMetadataMessage, rtcConfig, ClientLogger } from "@shared/."
 
 import { ReceiveErrorHandler } from "./error"
-import { parseFileMetadataMessage } from "./parse"
 import { ReceiveServer } from "./server"
 import { UI } from "./ui"
 import { getRoomID } from "./util"
@@ -40,7 +39,7 @@ peerConnection.ondatachannel = (event) => {
     // TODO: come up with a better way of type checking
     if (typeof event.data === "string") {
       try {
-        metadata = parseFileMetadataMessage(event.data).content
+        metadata = FileMetadataMessage.parse(event.data).content
         UI.displayFileMetadata(metadata)
         UI.getDownloadElem().onclick = () =>
           UI.clickDownload(chunks, metadata.name, metadata.size, dataChannel)
