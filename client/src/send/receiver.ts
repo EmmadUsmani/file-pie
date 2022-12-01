@@ -12,8 +12,7 @@ import { SendServer } from "./server"
 import { UI } from "./ui"
 
 export class Receivers {
-  // TODO: maybe use Record type instead
-  static receivers: { [key: ClientID]: Receiver } = {}
+  static receivers: Record<ClientID, Receiver> = {}
 
   static addReceiver(receiverID: ClientID) {
     this.receivers[receiverID] = new Receiver(receiverID)
@@ -44,7 +43,7 @@ export class Receiver {
       ordered: true,
     })
     this.initListeners()
-    void this.sendOffer()
+    void this._sendOffer()
   }
 
   initListeners() {
@@ -55,8 +54,6 @@ export class Receiver {
     }
 
     this.dataChannel.onopen = () => {
-      // TODO: should we really call UI here? maybe store a file pointer
-      // and call this.filePtr.current
       const file = UI.getFile()
       /* TODO: Defining the type field to be "file_metadata" and having
       to manually write that here seems like an antipattern. Should there
@@ -97,8 +94,7 @@ export class Receiver {
     this.peerConnection.close()
   }
 
-  // TODO (prefix with _ or use ES7? private method), also add void type
-  async sendOffer() {
+  async _sendOffer() {
     const offer = await this.peerConnection.createOffer()
     void this.peerConnection.setLocalDescription(offer)
     SendServer.sendOffer(offer, this.receiverID)
