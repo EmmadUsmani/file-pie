@@ -3,51 +3,68 @@ import { RoomID } from "@webrtc-file-transfer/shared"
 import { getReadableFileSize } from "@shared/."
 
 import { Receivers } from "./receiver"
+import { SendServer } from "./server"
 
 export class UI {
-  static contentElem = document.querySelector<HTMLDivElement>("#content")
-  static introElem = document.querySelector<HTMLDivElement>("#intro")
-  static buttonElem = document.querySelector<HTMLButtonElement>("#upload")
-  static fileInputElem = document.querySelector<HTMLInputElement>("#file-input")
-  static sendingElem = document.querySelector<HTMLDivElement>("#sending")
-  static connectionsElem =
+  static _contentElem = document.querySelector<HTMLDivElement>("#content")
+  static _introElem = document.querySelector<HTMLDivElement>("#intro")
+  static _buttonElem = document.querySelector<HTMLButtonElement>("#upload")
+  static _fileInputElem =
+    document.querySelector<HTMLInputElement>("#file-input")
+  static _sendingElem = document.querySelector<HTMLDivElement>("#sending")
+  static _connectionsElem =
     document.querySelector<HTMLParagraphElement>("#connections")
-  static downloadsElem =
+  static _downloadsElem =
     document.querySelector<HTMLParagraphElement>("#downloads")
-  static transferredElem =
+  static _transferredElem =
     document.querySelector<HTMLParagraphElement>("#transferred")
-  static fileNameElem = document.querySelector<HTMLElement>("#file-name")
-  static linkElem = document.querySelector<HTMLAnchorElement>("#link")
-  static loadingElem = document.querySelector<HTMLDivElement>("#loading")
+  static _fileNameElem = document.querySelector<HTMLElement>("#file-name")
+  static _linkElem = document.querySelector<HTMLAnchorElement>("#link")
+  static _loadingElem = document.querySelector<HTMLDivElement>("#loading")
 
-  static bytesTransferred = 0
+  static _roomCreated = false
+  static _bytesTransferred = 0
+  static _downloads = 0
+
+  static init(): void {
+    const buttonElem = this.getButtonElem()
+    const fileInputElem = this.getFileInputElem()
+
+    buttonElem.onclick = () => fileInputElem.click()
+    fileInputElem.addEventListener("change", () => {
+      if (fileInputElem.files && !this._roomCreated) {
+        SendServer.createRoom()
+        UI.showLoadingElem()
+      }
+    })
+  }
 
   static getContentElem(): HTMLDivElement {
-    if (!this.contentElem) {
+    if (!this._contentElem) {
       throw Error("Content element does not exist.")
     }
-    return this.contentElem
+    return this._contentElem
   }
 
   static getIntroElem(): HTMLDivElement {
-    if (!this.introElem) {
+    if (!this._introElem) {
       throw Error("Intro element does not exist.")
     }
-    return this.introElem
+    return this._introElem
   }
 
   static getButtonElem(): HTMLButtonElement {
-    if (!this.buttonElem) {
+    if (!this._buttonElem) {
       throw Error("Button element does not exist.")
     }
-    return this.buttonElem
+    return this._buttonElem
   }
 
   static getFileInputElem(): HTMLInputElement {
-    if (!this.fileInputElem) {
+    if (!this._fileInputElem) {
       throw Error("file input element does not exist.")
     }
-    return this.fileInputElem
+    return this._fileInputElem
   }
 
   static getFile(): File {
@@ -59,52 +76,52 @@ export class UI {
   }
 
   static getSendingElem(): HTMLDivElement {
-    if (!this.sendingElem) {
+    if (!this._sendingElem) {
       throw Error("Sending element does not exist.")
     }
-    return this.sendingElem
+    return this._sendingElem
   }
 
   static getConnectionsElem(): HTMLParagraphElement {
-    if (!this.connectionsElem) {
+    if (!this._connectionsElem) {
       throw Error("Connections element does not exist.")
     }
-    return this.connectionsElem
+    return this._connectionsElem
   }
 
   static getDownloadsElem(): HTMLParagraphElement {
-    if (!this.downloadsElem) {
+    if (!this._downloadsElem) {
       throw Error("Downloads element does not exist.")
     }
-    return this.downloadsElem
+    return this._downloadsElem
   }
 
   static getTransferredElem(): HTMLParagraphElement {
-    if (!this.transferredElem) {
+    if (!this._transferredElem) {
       throw Error("Transferred element does not exist.")
     }
-    return this.transferredElem
+    return this._transferredElem
   }
 
   static getFileNameElem(): HTMLElement {
-    if (!this.fileNameElem) {
+    if (!this._fileNameElem) {
       throw Error("File name element does not exist.")
     }
-    return this.fileNameElem
+    return this._fileNameElem
   }
 
   static getLinkElem(): HTMLAnchorElement {
-    if (!this.linkElem) {
+    if (!this._linkElem) {
       throw Error("Link element does not exist.")
     }
-    return this.linkElem
+    return this._linkElem
   }
 
   static getLoadingElem(): HTMLDivElement {
-    if (!this.loadingElem) {
+    if (!this._loadingElem) {
       throw Error("Loading element does not exist.")
     }
-    return this.loadingElem
+    return this._loadingElem
   }
 
   static showLoadingElem(): void {
@@ -119,43 +136,28 @@ export class UI {
 
   static setRoomID(roomID: RoomID) {
     this.hideLoadingElem()
-
-    const introElem = this.getIntroElem()
-    introElem.style.display = "none"
-
-    const sendingElem = this.getSendingElem()
-    sendingElem.style.display = "flex"
-
+    this.getIntroElem().style.display = "none"
+    this.getSendingElem().style.display = "flex"
     this.getFileNameElem().innerText = this.getFile().name
-
-    const linkElem = this.getLinkElem()
-    // TODO: dynamically set domain name based on environment
-    // TODO: consider not using roomID query param
-    linkElem.innerText = `filepie.app/receive?roomID=${roomID}`
+    this.getLinkElem().innerText = `filepie.app/receive?roomID=${roomID}`
     // TODO: fix link to not need .html
-    linkElem.href = `/receive.html?roomID=${roomID}`
+    this.getLinkElem().href = `/receive.html?roomID=${roomID}`
+    this._roomCreated = true
   }
 
   static updateReceivers() {
-    const connectionsElem = this.getConnectionsElem()
-    connectionsElem.innerText = Object.keys(
+    this.getConnectionsElem().innerText = Object.keys(
       Receivers.receivers
     ).length.toString()
   }
 
   static incrementDownloads(): void {
-    // todo: maybe store underlying state value for downloads like for transferred?
-    const downloads = parseInt(this.getDownloadsElem().innerText)
-    if (isNaN(downloads)) {
-      throw Error("Downloads is not a number.")
-    }
-    this.getDownloadsElem().innerText = `${downloads + 1}`
+    this.getDownloadsElem().innerText = `${++this._downloads}`
   }
 
   static incrementBytesTransferred(bytes: number): void {
-    this.bytesTransferred += bytes
     this.getTransferredElem().innerText = getReadableFileSize(
-      this.bytesTransferred
+      (this._bytesTransferred += bytes)
     )
   }
 }

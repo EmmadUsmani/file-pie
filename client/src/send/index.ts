@@ -22,19 +22,7 @@ import "@shared/logo.svg"
 
 ClientLogger.init({ showDebugLogs: process.env.NODE_ENV === "development" })
 ErrorHandler.init()
-
-const buttonElem = UI.getButtonElem()
-const fileInputElem = UI.getFileInputElem()
-
-buttonElem.onclick = () => fileInputElem.click()
-
-fileInputElem.addEventListener("change", () => {
-  // TODO: better abstraction for storing state (roomID, file)
-  if (fileInputElem.files && !UI.getLinkElem().innerText) {
-    SendServer.createRoom()
-    UI.showLoadingElem()
-  }
-})
+UI.init()
 
 // TODO: consider creating a separate listeners class and initializing them there
 SendServer.listen(ServerEvent.RoomCreated, (data: RoomCreatedData) => {
