@@ -1,6 +1,11 @@
 import { ClientID } from "@webrtc-file-transfer/shared"
 
-import { FileMetadataMessage, rtcConfig, CHUNK_SIZE } from "@shared/."
+import {
+  FileMetadataMessage,
+  rtcConfig,
+  CHUNK_SIZE,
+  ClientLogger,
+} from "@shared/."
 
 import { parseDownloadCompleteMessage } from "./parse"
 import { SendServer } from "./server"
@@ -64,6 +69,13 @@ export class Receiver {
         },
       }
       this.dataChannel.send(JSON.stringify(metadataMessage))
+
+      ClientLogger.debug(
+        "sent FileMetadataMessage to receiver",
+        `receiverID: ${this.receiverID}`,
+        `message: ${JSON.stringify(metadataMessage)}`
+      )
+
       void this._sendFile(file)
     }
 
@@ -104,6 +116,11 @@ export class Receiver {
       const chunk = arrayBuffer.slice(i * CHUNK_SIZE, (i + 1) * CHUNK_SIZE)
       this.dataChannel.send(chunk)
       UI.incrementBytesTransferred(chunk.byteLength)
+
+      ClientLogger.debug(
+        "sent chunk to receiver",
+        `chunk.byteLength: ${chunk.byteLength}`
+      )
     }
   }
 }

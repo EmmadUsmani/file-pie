@@ -6,7 +6,7 @@ import {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import adapter from "webrtc-adapter"
 
-import { FileMetadataMessage, rtcConfig } from "@shared/."
+import { FileMetadataMessage, rtcConfig, ClientLogger } from "@shared/."
 
 import { ReceiveErrorHandler } from "./error"
 import { parseFileMetadataMessage } from "./parse"
@@ -46,6 +46,11 @@ peerConnection.ondatachannel = (event) => {
           UI.clickDownload(chunks, metadata.name, metadata.size, dataChannel)
       } catch (error) {
         console.error("Error parsing metadata")
+      } finally {
+        ClientLogger.debug(
+          "received FileMetadata message from sender",
+          `metadata: ${JSON.stringify(metadata)}`
+        )
       }
     } else {
       chunks.push(event.data)
@@ -55,6 +60,8 @@ peerConnection.ondatachannel = (event) => {
         metadata.size,
         dataChannel
       )
+
+      ClientLogger.debug("received chunk from sender")
     }
   }
 }
@@ -67,13 +74,15 @@ ReceiveServer.listen(ServerEvent.RoomNotFound, () => {
 })
 
 ReceiveServer.listen(ServerEvent.RoomJoined, () => {
-  UI.displayMessage("Joined room.")
+  ClientLogger.debug("received RoomJoined event from server")
 })
 
 ReceiveServer.listen(ServerEvent.SenderLeft, () => {
   if (!UI.getFileDownloaded()) {
     ReceiveErrorHandler.displaySenderLeftError()
   }
+
+  ClientLogger.debug("received SenderLeft event from server")
 })
 
 ReceiveServer.listen(ServerEvent.OfferSent, async (data: OfferSentData) => {
@@ -83,6 +92,11 @@ ReceiveServer.listen(ServerEvent.OfferSent, async (data: OfferSentData) => {
   const answer = await peerConnection.createAnswer()
   void peerConnection.setLocalDescription(answer)
   ReceiveServer.sendAnswer(answer)
+
+  ClientLogger.debug(
+    "received OfferSent event from server",
+    `offer: ${JSON.stringify(offer)}`
+  )
 })
 
 ReceiveServer.listen(
@@ -93,7 +107,12 @@ ReceiveServer.listen(
     try {
       await peerConnection.addIceCandidate(iceCandidate)
     } catch (error) {
-      console.error("Error adding received ice candidate", error)
+      ClientLogger.error(error as Error)
+    } finally {
+      ClientLogger.debug(
+        "received IceCandiateSentFromSender event from server",
+        `iceCandidate: ${JSON.stringify(iceCandidate)}`
+      )
     }
   }
 )

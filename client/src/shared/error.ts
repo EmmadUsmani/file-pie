@@ -1,3 +1,5 @@
+import { ClientLogger } from "."
+
 export class ErrorHandler {
   static _contentElem = document.querySelector<HTMLDivElement>("#content")
   static _errorElem = document.querySelector<HTMLDivElement>("#error")
@@ -55,6 +57,9 @@ export class ErrorHandler {
   }
 
   static init(): void {
-    window.addEventListener("error", () => this.displayErrorMessage())
+    window.addEventListener("error", (event) => {
+      ClientLogger.error(event.error)
+      this.displayErrorMessage()
+    })
   }
 }

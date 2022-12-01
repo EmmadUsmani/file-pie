@@ -77,18 +77,10 @@ export class UI {
     return this._fileDownloaded
   }
 
-  static displayMessage(message: string): void {
-    // TODO: replace with better error handling
-    console.log(message)
-  }
-
   static displayFileMetadata(metadata: FileMetadataMessage["content"]): void {
-    const { name, type, size, lastModified } = metadata
+    const { name, size } = metadata
 
     UI.hideLoadingElem()
-    this.displayMessage(
-      name + " " + type + " " + String(size) + " " + String(lastModified)
-    )
     this._getFileNameElem().innerText = name
     this._getFileSizeElem().innerText = getReadableFileSize(size)
   }
