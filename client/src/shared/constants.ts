@@ -7,6 +7,7 @@ export const RTC_CONFIG: RTCConfiguration = {
 }
 /**
  * Safest chunk size for cross browser support.
+ *
  * @see https://lgrahl.de/articles/demystifying-webrtc-dc-size-limit.html
  */
 export const CHUNK_SIZE = 16384

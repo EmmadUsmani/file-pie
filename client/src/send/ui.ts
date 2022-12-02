@@ -5,6 +5,10 @@ import { getReadableFileSize } from "@shared/."
 import { Receivers } from "./receiver"
 import { SendServer } from "./server"
 
+/**
+ * Singleton exposing UI functionality via declarative methods,
+ * manages DOM manipulation and state changes internally.
+ */
 export class UI {
   static _contentElem = document.querySelector<HTMLDivElement>("#content")
   static _introElem = document.querySelector<HTMLDivElement>("#intro")
@@ -140,7 +144,6 @@ export class UI {
     this.getSendingElem().style.display = "flex"
     this.getFileNameElem().innerText = this.getFile().name
     this.getLinkElem().innerText = `filepie.app/receive?roomID=${roomID}`
-    // TODO: fix link to not need .html
     this.getLinkElem().href = `/receive.html?roomID=${roomID}`
     this._roomCreated = true
   }

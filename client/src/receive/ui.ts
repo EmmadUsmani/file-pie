@@ -4,6 +4,10 @@ import { CHUNK_SIZE, getReadableFileSize } from "@shared/."
 
 import { Sender } from "./sender"
 
+/**
+ * Singleton exposing UI functionality via declarative methods,
+ * manages DOM manipulation and state changes internally.
+ */
 export class UI {
   static _contentElem = document.querySelector<HTMLDivElement>("#content")
   static _titleElem = document.querySelector<HTMLHeadingElement>("#title")

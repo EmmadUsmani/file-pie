@@ -5,6 +5,9 @@ import { DownloadCompleteMessage, FileMetadataMessage } from "@shared/messages"
 import { ReceiveServer } from "./server"
 import { UI } from "./ui"
 
+/**
+ * Singleton managing a single WebRTC connection to the peer serving the file.
+ */
 export class Sender {
   static _peerConnection: RTCPeerConnection | undefined = undefined
   static _dataChannel: RTCDataChannel | undefined = undefined

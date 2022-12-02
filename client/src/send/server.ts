@@ -15,6 +15,12 @@ import { Server, ClientLogger } from "@shared/."
 import { Receivers } from "./receiver"
 import { UI } from "./ui"
 
+/**
+ * Singleton to interface with WebSocket connection to backend server
+ * needed for WebRTC handshake. Specific to the send client.
+ *
+ * @extends Server
+ */
 export class SendServer extends Server {
   static init(): void {
     this.listen(ServerEvent.RoomCreated, (data: RoomCreatedData) => {

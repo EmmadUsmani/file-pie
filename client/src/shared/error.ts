@@ -1,5 +1,9 @@
 import { ClientLogger } from "."
 
+/**
+ * Singleton for generic error handling across both clients (send and receive).
+ * Is extended to handle client-specific cases.
+ */
 export class ErrorHandler {
   static _contentElem = document.querySelector<HTMLDivElement>("#content")
   static _errorElem = document.querySelector<HTMLDivElement>("#error")

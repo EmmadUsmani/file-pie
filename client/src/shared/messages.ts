@@ -1,3 +1,7 @@
+/**
+ * Abstract class representing a generic WebRTC Message sent directly between
+ * a pair of sender and receiver peers.
+ */
 export abstract class Message {
   abstract type: string
   content?: Record<string, unknown>
@@ -10,12 +14,24 @@ export abstract class Message {
     return JSON.stringify(obj)
   }
 
+  /**
+   * Dummy implementation of a parsing method to be overriden by children.
+   * Needed because Typescript does not support abstract static methods.
+   *
+   * @param data - string of incoming WebRTC message
+   */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   static parse(data: string): Message {
     throw Error("Parse method not implemented.")
   }
 }
 
+/**
+ * WebRTC message sent by sender to receiver peers to provide
+ * a file's metadata before sending it.
+ *
+ * @extends Message
+ */
 export class FileMetadataMessage extends Message {
   type: "file_metadata"
   content: {
@@ -64,6 +80,13 @@ export class FileMetadataMessage extends Message {
   }
 }
 
+/**
+ * WebRTC message sent by a receiver to the sender to indicate the user
+ * has downloaded the file.
+ *
+ * @extends Message
+ *
+ */
 export class DownloadCompleteMessage extends Message {
   type: "download_complete"
 

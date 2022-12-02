@@ -11,6 +11,9 @@ import {
 import { SendServer } from "./server"
 import { UI } from "./ui"
 
+/**
+ * Singleton managing all Receiver peers connected to this sender client.
+ */
 export class Receivers {
   static receivers: Record<ClientID, Receiver> = {}
 
@@ -30,7 +33,11 @@ export class Receivers {
   }
 }
 
-// create new receiver when a peer joins the socket.io room
+/**
+ * Manages a single WebRTC connection to a peer receiving the file being sent
+ * by the sender (this client). A new Receiver is instatiated for each peer that
+ * joins the socket.io room.
+ */
 export class Receiver {
   receiverID: ClientID
   peerConnection: RTCPeerConnection

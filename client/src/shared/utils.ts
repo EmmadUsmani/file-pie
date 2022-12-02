@@ -1,6 +1,6 @@
 /**
  * Format bytes as human-readable text.
- * @see https://stackoverflow.com/a/14919494 for source
+ * @see https://stackoverflow.com/a/14919494 for source.
  *
  * @param bytes Number of bytes.
  * @param si True to use metric (SI) units, aka powers of 1000. False to use

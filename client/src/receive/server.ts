@@ -13,6 +13,12 @@ import { ReceiveErrorHandler } from "./error"
 import { Sender } from "./sender"
 import { UI } from "./ui"
 
+/**
+ * Singleton to interface with WebSocket connection to backend server
+ * needed for WebRTC handshake. Specific to the receive client.
+ *
+ * @extends Server
+ */
 export class ReceiveServer extends Server {
   static init(): void {
     this.joinRoom()

@@ -1,5 +1,11 @@
 import { ErrorHandler } from "@shared/."
 
+/**
+ * Singleton error handler with specific methods for common error types.
+ * Specific to the receive client.
+ *
+ * @extends ErrorHandler
+ */
 export class ReceiveErrorHandler extends ErrorHandler {
   static displayRoomNotFoundError(): void {
     this.displayErrorMessage(

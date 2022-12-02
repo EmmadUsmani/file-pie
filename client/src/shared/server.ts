@@ -4,6 +4,10 @@ import { io } from "socket.io-client"
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type ServerEventListener = (data: any) => void | Promise<void>
 
+/**
+ * Singleton managing WebSocket connection to backend server. Is
+ * extended to provide methods to send client-specific messages.
+ */
 export class Server {
   static socket = io("/")
 
