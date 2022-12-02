@@ -2,10 +2,13 @@ import { Server } from "socket.io"
 
 import { Client } from "@server/client"
 
-import { registerHandshakeHandlers } from "./handshake"
+import { registerReceiverHandlers } from "./receiver"
+import { registerSenderHandlers } from "./sender"
 
 export function registerHandlers(io: Server) {
   io.on("connection", (socket) => {
-    registerHandshakeHandlers(new Client(socket))
+    const client = new Client(socket)
+    registerSenderHandlers(client)
+    registerReceiverHandlers(client)
   })
 }
