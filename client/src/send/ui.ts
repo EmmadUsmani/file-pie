@@ -34,7 +34,7 @@ export class UI {
     fileInputElem.addEventListener("change", () => {
       if (fileInputElem.files && !this._roomCreated) {
         SendServer.createRoom()
-        UI.showLoadingElem()
+        this.showLoadingElem()
       }
     })
   }

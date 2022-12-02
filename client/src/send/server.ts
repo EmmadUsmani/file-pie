@@ -17,7 +17,7 @@ import { UI } from "./ui"
 
 export class SendServer extends Server {
   static init(): void {
-    SendServer.listen(ServerEvent.RoomCreated, (data: RoomCreatedData) => {
+    this.listen(ServerEvent.RoomCreated, (data: RoomCreatedData) => {
       const { roomID } = data
       UI.setRoomID(roomID)
 
@@ -27,20 +27,17 @@ export class SendServer extends Server {
       )
     })
 
-    SendServer.listen(
-      ServerEvent.ReceiverJoined,
-      (data: ReceiverJoinedData) => {
-        const { receiverID } = data
-        Receivers.addReceiver(receiverID)
+    this.listen(ServerEvent.ReceiverJoined, (data: ReceiverJoinedData) => {
+      const { receiverID } = data
+      Receivers.addReceiver(receiverID)
 
-        ClientLogger.debug(
-          "received ReceiverJoined event from server",
-          `receiverID: ${receiverID}`
-        )
-      }
-    )
+      ClientLogger.debug(
+        "received ReceiverJoined event from server",
+        `receiverID: ${receiverID}`
+      )
+    })
 
-    SendServer.listen(ServerEvent.ReceiverLeft, (data: ReceiverLeftData) => {
+    this.listen(ServerEvent.ReceiverLeft, (data: ReceiverLeftData) => {
       const { receiverID } = data
       Receivers.removeReceiver(receiverID)
 
@@ -50,7 +47,7 @@ export class SendServer extends Server {
       )
     })
 
-    SendServer.listen(ServerEvent.AnswerSent, (data: AnswerSentData) => {
+    this.listen(ServerEvent.AnswerSent, (data: AnswerSentData) => {
       const { answer, receiverID } = data
 
       const receiver = Receivers.getReceiver(receiverID)
@@ -64,7 +61,7 @@ export class SendServer extends Server {
       )
     })
 
-    SendServer.listen(
+    this.listen(
       ServerEvent.IceCandidateSentFromReceiver,
       (data: IceCandidateSentFromReceiverData) => {
         const { iceCandidate, receiverID } = data
