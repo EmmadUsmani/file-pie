@@ -15,6 +15,7 @@
     "clean": "yarn workspaces foreach -p run clean",
     "build": "yarn workspaces foreach -ptvi run build",
     "start": "yarn build && yarn workspace @webrtc-file-transfer/server run start",
+    "stop": "yarn workspace @webrtc-file-transfer/server run stop",
     "lint": "yarn prettier . --write && yarn eslint . --fix",
     "lint-nofix": "yarn prettier . --check && yarn eslint ."
   },
