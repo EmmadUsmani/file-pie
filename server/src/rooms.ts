@@ -4,6 +4,9 @@ import { v4 as uuidV4 } from "uuid"
 import { Client } from "@server/client"
 import { io } from "@server/init"
 
+/**
+ * Singleton managing all active Rooms connected clients have joined.
+ */
 export class Rooms {
   static rooms: Record<RoomID, Room> = {}
 

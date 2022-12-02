@@ -4,7 +4,6 @@ import { registerHandlers } from "@server/handlers"
 import { httpServer, io } from "@server/init"
 
 Logger.init({ showDebugLogs: process.env.NODE_ENV === "development" })
-
 registerHandlers(io)
 
 const port = process.env.PORT ? +process.env.PORT : 3000

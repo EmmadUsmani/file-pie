@@ -12,6 +12,11 @@ import { Client } from "@server/client"
 import { io } from "@server/init"
 import { Rooms } from "@server/rooms"
 
+/**
+ * Registers handlers for sender clients
+ *
+ * @param client - Client instance, converted from Socket
+ */
 export function registerSenderHandlers(client: Client) {
   client.registerHandler(ServerEvent.CreateRoom, () => {
     const roomID = Rooms.createRoom(client)

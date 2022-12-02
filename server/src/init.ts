@@ -1,3 +1,10 @@
+/**
+ * @file Initializes Express server to host client bundles and
+ * socket.io server for WebSocket communication.
+ *
+ * Is separated from index.ts to avoid a circular dependency.
+ */
+
 import { createServer } from "http"
 import * as path from "path"
 

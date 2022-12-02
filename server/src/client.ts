@@ -1,6 +1,11 @@
 import { RoomID, ServerEvent } from "@webrtc-file-transfer/shared"
 import { Socket } from "socket.io"
 
+/**
+ * Manages connection to a single client (either sender or receiver)
+ * by encapsulating underlying socket.io Socket instance and providing
+ * declarative methods for actions.
+ */
 export class Client {
   _socket: Socket
   _roomID: RoomID | undefined

@@ -14,6 +14,11 @@ import { Client } from "@server/client"
 import { io } from "@server/init"
 import { Rooms } from "@server/rooms"
 
+/**
+ * Registers handlers for receiver clients
+ *
+ * @param client - Client instance, converted from Socket
+ */
 export function registerReceiverHandlers(client: Client) {
   client.registerHandler(ServerEvent.JoinRoom, (data: JoinRoomData) => {
     const { roomID } = data
@@ -24,10 +29,8 @@ export function registerReceiverHandlers(client: Client) {
       return
     }
 
-    // send confirmation to receiver
     client.emit(ServerEvent.RoomJoined)
 
-    // notify sender
     const senderID = Rooms.getSenderID(roomID)
     const resData: ReceiverJoinedData = { receiverID: client.id }
     io.to(senderID).emit(ServerEvent.ReceiverJoined, resData)
@@ -46,7 +49,6 @@ export function registerReceiverHandlers(client: Client) {
 
     Rooms.receiverLeave(client)
 
-    // notify sender
     const senderID = Rooms.getSenderID(client.roomID)
     const resData: ReceiverLeftData = { receiverID: client.id }
     io.to(senderID).emit(ServerEvent.ReceiverLeft, resData)
@@ -60,7 +62,6 @@ export function registerReceiverHandlers(client: Client) {
   client.registerHandler(ServerEvent.SendAnswer, (data: SendAnswerData) => {
     const { answer } = data
 
-    // forward to sender
     const senderID = Rooms.getSenderID(client.roomID)
     const resData: AnswerSentData = { answer, receiverID: client.id }
     io.to(senderID).emit(ServerEvent.AnswerSent, resData)
@@ -78,7 +79,6 @@ export function registerReceiverHandlers(client: Client) {
     (data: SendIceCandidateToSenderData) => {
       const { iceCandidate } = data
 
-      // forward to sender
       const senderID = Rooms.getSenderID(client.roomID)
       const resData: IceCandidateSentFromReceiverData = {
         iceCandidate,
