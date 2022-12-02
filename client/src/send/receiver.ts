@@ -58,7 +58,6 @@ export class Receiver {
 
       const metadataMessage = new FileMetadataMessage({
         name: file.name,
-        type: file.type,
         size: file.size,
         lastModified: file.lastModified,
       })

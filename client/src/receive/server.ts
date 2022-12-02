@@ -1,19 +1,74 @@
 import {
   JoinRoomData,
-  RoomID,
   SendAnswerData,
   SendIceCandidateToSenderData,
   ServerEvent,
+  IceCandidateSentFromSenderData,
+  OfferSentData,
 } from "@webrtc-file-transfer/shared"
 
 import { Server, ClientLogger } from "@shared/."
 
+import { ReceiveErrorHandler } from "./error"
+import { Sender } from "./sender"
+import { UI } from "./ui"
+
 export class ReceiveServer extends Server {
-  static joinRoom(roomID: RoomID) {
-    const data: JoinRoomData = { roomID }
+  static init(): void {
+    this.joinRoom()
+
+    this.listen(ServerEvent.RoomNotFound, () => {
+      ReceiveErrorHandler.displayRoomNotFoundError()
+    })
+
+    this.listen(ServerEvent.RoomJoined, () => {
+      ClientLogger.debug("received RoomJoined event from server")
+    })
+
+    this.listen(ServerEvent.SenderLeft, () => {
+      if (!UI.getFileDownloaded()) {
+        ReceiveErrorHandler.displaySenderLeftError()
+      }
+
+      ClientLogger.debug("received SenderLeft event from server")
+    })
+
+    this.listen(ServerEvent.OfferSent, async (data: OfferSentData) => {
+      const { offer } = data
+
+      this.sendAnswer(await Sender.accpetOfferAndCreateAnswer(offer))
+
+      ClientLogger.debug(
+        "received OfferSent event from server",
+        `offer: ${JSON.stringify(offer)}`
+      )
+    })
+
+    this.listen(
+      ServerEvent.IceCandidateSentFromSender,
+      async (data: IceCandidateSentFromSenderData) => {
+        const { iceCandidate } = data
+
+        try {
+          await Sender.getPeerConnection().addIceCandidate(iceCandidate)
+        } finally {
+          ClientLogger.debug(
+            "received IceCandiateSentFromSender event from server",
+            `iceCandidate: ${JSON.stringify(iceCandidate)}`
+          )
+        }
+      }
+    )
+  }
+
+  static joinRoom() {
+    const data: JoinRoomData = { roomID: UI.getRoomID() }
     this.socket.emit(ServerEvent.JoinRoom, data)
 
-    ClientLogger.debug("sent JoinRoom event to server", `roomID: ${roomID}`)
+    ClientLogger.debug(
+      "sent JoinRoom event to server",
+      `roomID: ${UI.getRoomID()}`
+    )
   }
 
   static sendAnswer(answer: RTCSessionDescriptionInit) {

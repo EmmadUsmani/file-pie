@@ -1,11 +1,8 @@
-import {
-  CHUNK_SIZE,
-  DownloadCompleteMessage,
-  FileMetadataMessage,
-  getReadableFileSize,
-} from "@shared/."
+import { RoomID } from "@webrtc-file-transfer/shared"
 
-import { isFinishedDownloading } from "./util"
+import { CHUNK_SIZE, getReadableFileSize } from "@shared/."
+
+import { Sender } from "./sender"
 
 export class UI {
   static _contentElem = document.querySelector<HTMLDivElement>("#content")
@@ -20,6 +17,11 @@ export class UI {
   static _fileDownloaded = false
   static _clickedDownload = false
 
+  static init(): void {
+    this.showLoadingElem()
+    this.getDownloadElem().onclick = () => this._clickDownload()
+  }
+
   static getContentElem(): HTMLDivElement {
     if (!this._contentElem) {
       throw Error("Content element does not exist.")
@@ -27,22 +29,21 @@ export class UI {
     return this._contentElem
   }
 
-  // TODO consider not making getters private
-  static _getTitleElem(): HTMLHeadingElement {
+  static getTitleElem(): HTMLHeadingElement {
     if (!this._titleElem) {
       throw Error("Title element does not exist.")
     }
     return this._titleElem
   }
 
-  static _getFileNameElem(): HTMLParagraphElement {
+  static getFileNameElem(): HTMLParagraphElement {
     if (!this._fileNameElem) {
       throw Error("File name elemnt does not exist.")
     }
     return this._fileNameElem
   }
 
-  static _getFileSizeElem(): HTMLParagraphElement {
+  static getFileSizeElem(): HTMLParagraphElement {
     if (!this._fileSizeElem) {
       throw Error("File name element does not exist.")
     }
@@ -77,58 +78,66 @@ export class UI {
     return this._fileDownloaded
   }
 
-  static displayFileMetadata(metadata: FileMetadataMessage["content"]): void {
-    const { name, size } = metadata
-
-    UI.hideLoadingElem()
-    this._getFileNameElem().innerText = name
-    this._getFileSizeElem().innerText = getReadableFileSize(size)
+  static getRoomID(): RoomID {
+    const roomID = new URLSearchParams(window.location.search).get("roomID")
+    if (!roomID) {
+      throw Error("No room id provided.")
+    }
+    return roomID
   }
 
-  static clickDownload(
-    chunks: Array<ArrayBuffer>,
-    name: string,
-    size: number,
-    dataChannel: RTCDataChannel
-  ): void {
+  static displayFileMetadata(): void {
+    this.hideLoadingElem()
+    this.getFileNameElem().innerText = Sender.getMetadata().name
+    this.getFileSizeElem().innerText = getReadableFileSize(
+      Sender.getMetadata().size
+    )
+  }
+
+  static _clickDownload(): void {
     this._clickedDownload = true
     this.getDownloadElem().innerText = "Downloading"
     this.getDownloadElem().className = "disabled"
-    this.updateDownloadProgress(chunks, name, size, dataChannel)
+    this.updateDownloadProgress()
   }
 
-  static updateDownloadProgress(
-    chunks: Array<ArrayBuffer>,
-    name: string,
-    size: number,
-    dataChannel: RTCDataChannel
-  ): void {
-    if (isFinishedDownloading(chunks, size)) {
+  static updateDownloadProgress(): void {
+    if (
+      Sender.getChunks().length ===
+      Math.ceil(Sender.getMetadata().size / CHUNK_SIZE)
+    ) {
       this._fileDownloaded = true
     }
     if (!this._clickedDownload) {
       return
     }
     const percent = Math.min(
-      Math.round(((chunks.length * CHUNK_SIZE) / size) * 100),
+      Math.round(
+        ((Sender.getChunks().length * CHUNK_SIZE) / Sender.getMetadata().size) *
+          100
+      ),
       100
     )
 
-    this._getFileSizeElem().innerText = `${getReadableFileSize(
-      Math.min(chunks.length * CHUNK_SIZE, size)
-    )} / ${getReadableFileSize(size)} · ${percent}%`
+    this.getFileSizeElem().innerText = `${getReadableFileSize(
+      Math.min(
+        Sender.getChunks().length * CHUNK_SIZE,
+        Sender.getMetadata().size
+      )
+    )} / ${getReadableFileSize(Sender.getMetadata().size)} · ${percent}%`
 
     if (this.getFileDownloaded()) {
-      UI.downloadFile(chunks, name)
+      UI.downloadFile()
       this.getDownloadElem().innerText = "Re-download"
       this.getDownloadElem().className = ""
-      dataChannel.send(new DownloadCompleteMessage().serialize())
+      Sender.sendDownloadCompleteMessage()
     }
   }
 
-  static downloadFile(chunks: Array<ArrayBuffer>, name: string): void {
-    // TODO: add additional metadata to file
-    const file = new File(chunks, name)
+  static downloadFile(): void {
+    const file = new File(Sender.getChunks(), Sender.getMetadata().name, {
+      lastModified: Sender.getMetadata().lastModified,
+    })
     const anchor = window.document.createElement("a")
     anchor.href = window.URL.createObjectURL(file)
     anchor.download = file.name

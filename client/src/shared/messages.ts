@@ -20,17 +20,11 @@ export class FileMetadataMessage extends Message {
   type: "file_metadata"
   content: {
     name: string
-    type: string
     size: number
     lastModified: number
   }
 
-  constructor(metadata: {
-    name: string
-    type: string
-    size: number
-    lastModified: number
-  }) {
+  constructor(metadata: { name: string; size: number; lastModified: number }) {
     super()
     this.type = "file_metadata"
     this.content = metadata
@@ -55,9 +49,6 @@ export class FileMetadataMessage extends Message {
     if (!content.name || typeof content.name !== "string") {
       throw Error("Content missing name")
     }
-    if (!content.type || typeof content.type !== "string") {
-      throw Error("Content missing type")
-    }
     if (!content.size || typeof content.size !== "number") {
       throw Error("Content missing size")
     }
@@ -67,7 +58,6 @@ export class FileMetadataMessage extends Message {
 
     return new FileMetadataMessage({
       name: content.name,
-      type: content.type,
       size: content.size,
       lastModified: content.lastModified,
     })
