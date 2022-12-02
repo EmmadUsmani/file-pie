@@ -21,6 +21,10 @@ export class Client {
     return this._roomID
   }
 
+  isInRoom(): boolean {
+    return this._roomID !== undefined
+  }
+
   //eslint-disable-next-line @typescript-eslint/no-explicit-any
   emit(event: ServerEvent, data?: any): void {
     this._socket.emit(event, data)
@@ -29,6 +33,20 @@ export class Client {
   //eslint-disable-next-line @typescript-eslint/no-explicit-any
   broadcast(event: ServerEvent, data?: any): void {
     this._socket.to(this.roomID).emit(event, data)
+  }
+
+  registerHandler(
+    event: ServerEvent | string,
+    //eslint-disable-next-line @typescript-eslint/no-explicit-any
+    handler: (data?: any) => void
+  ): void {
+    this._socket.on(event, (data) => {
+      try {
+        handler(data)
+      } catch (error) {
+        console.log(error)
+      }
+    })
   }
 
   async joinRoomAsSender(roomID: RoomID): Promise<void> {
@@ -57,19 +75,5 @@ export class Client {
     await this._socket.leave(this.roomID)
     this._roomID = undefined
     this.type = undefined
-  }
-
-  registerHandler(
-    event: ServerEvent | string,
-    //eslint-disable-next-line @typescript-eslint/no-explicit-any
-    handler: (data?: any) => void
-  ): void {
-    this._socket.on(event, (data) => {
-      try {
-        handler(data)
-      } catch (error) {
-        console.log(error)
-      }
-    })
   }
 }
