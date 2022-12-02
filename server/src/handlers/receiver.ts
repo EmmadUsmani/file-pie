@@ -19,12 +19,11 @@ export function registerReceiverHandlers(client: Client) {
     try {
       Rooms.receiverJoin(client, roomID)
     } catch {
-      // invalid roomID
       client.emit(ServerEvent.RoomNotFound)
       return
     }
 
-    // notify other receivers
+    // send confirmation to receiver
     client.emit(ServerEvent.RoomJoined)
 
     // notify sender
@@ -34,22 +33,14 @@ export function registerReceiverHandlers(client: Client) {
   })
 
   client.registerHandler("disconnect", () => {
-    const roomID = client._roomID
-
-    // do nothing if client is not in a room
-    if (!roomID) {
-      return
-    }
-
-    // do nothing if client is not a receiver
-    if (client.type !== "receiver") {
+    if (!client.isInRoom() || client.type !== "receiver") {
       return
     }
 
     Rooms.receiverLeave(client)
 
     // notify sender
-    const senderID = Rooms.getSenderID(roomID)
+    const senderID = Rooms.getSenderID(client.roomID)
     const resData: ReceiverLeftData = { receiverID: client.id }
     io.to(senderID).emit(ServerEvent.ReceiverLeft, resData)
   })
