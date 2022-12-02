@@ -5,6 +5,7 @@ import {
   SendIceCandidateToReceiverData,
   SendOfferData,
   ServerEvent,
+  Logger,
 } from "@webrtc-file-transfer/shared"
 
 import { Client } from "@server/client"
@@ -17,6 +18,12 @@ export function registerSenderHandlers(client: Client) {
 
     const resData: RoomCreatedData = { roomID }
     client.emit(ServerEvent.RoomCreated, resData)
+
+    Logger.debug(
+      `Received CreateRoom event from sender ${client.id}`,
+      `Sending RoomCreated event to sender ${client.id}`,
+      `roomID: ${roomID}`
+    )
   })
 
   client.registerHandler("disconnect", () => {
@@ -24,9 +31,13 @@ export function registerSenderHandlers(client: Client) {
       return
     }
 
-    // notify all receivers
     client.broadcast(ServerEvent.SenderLeft)
     Rooms.senderLeave(client)
+
+    Logger.debug(
+      `Sender ${client.id} disconnected`,
+      `Sending SenderLeft event to all receivers in room ${client.roomID}`
+    )
   })
 
   client.registerHandler(ServerEvent.SendOffer, (data: SendOfferData) => {
@@ -34,6 +45,13 @@ export function registerSenderHandlers(client: Client) {
 
     const resData: OfferSentData = { offer }
     io.to(receiverID).emit(ServerEvent.OfferSent, resData)
+
+    Logger.debug(
+      `Received SendOffer event from sender ${client.id}`,
+      `Sending OfferSent event to receiver ${receiverID}`,
+      `offer.sdp: ${offer.sdp ?? ""}`,
+      `offer.type: ${offer.type}`
+    )
   })
 
   client.registerHandler(
@@ -43,6 +61,12 @@ export function registerSenderHandlers(client: Client) {
 
       const resData: IceCandidateSentFromSenderData = { iceCandidate }
       io.to(receiverID).emit(ServerEvent.IceCandidateSentFromSender, resData)
+
+      Logger.debug(
+        `Received SendIceCandidateToReceiver event from sender ${client.id}`,
+        `Sending IceCandidateSentFromSender event to receiver ${receiverID}`,
+        `iceCandidate: ${JSON.stringify(iceCandidate)}`
+      )
     }
   )
 }

@@ -1,4 +1,4 @@
-export abstract class Logger {
+export class Logger {
   static _showDebugLogs = false
 
   static init({ showDebugLogs }: { showDebugLogs?: boolean }) {
