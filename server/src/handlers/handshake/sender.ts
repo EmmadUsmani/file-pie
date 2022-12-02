@@ -7,23 +7,22 @@ import {
   ServerEvent,
 } from "@webrtc-file-transfer/shared"
 
-import { io } from "@server/."
+import { Client } from "@server/client"
+import { io } from "@server/init"
 import { Rooms } from "@server/rooms"
-import { ExtendedSocket } from "@server/types"
-import { registerHandler } from "@server/utils"
 
-export function registerSenderHandlers(socket: ExtendedSocket) {
-  registerHandler(socket, ServerEvent.CreateRoom, () => {
-    const roomID = Rooms.createRoom(socket)
+export function registerSenderHandlers(client: Client) {
+  client.registerHandler(ServerEvent.CreateRoom, () => {
+    const roomID = Rooms.createRoom(client)
 
     // emit response event to sender
     const resData: RoomCreatedData = { roomID }
-    socket.emit(ServerEvent.RoomCreated, resData)
+    client.emit(ServerEvent.RoomCreated, resData)
   })
 
-  registerHandler(socket, "disconnect", () => {
+  client.registerHandler("disconnect", () => {
     // TODO: code is very imperative, can we make ExtendedSocket a class and add declarative methods?
-    const roomID = socket.roomID
+    const roomID = client._roomID
 
     // do nothing if client is not in a room
     if (!roomID) {
@@ -31,17 +30,17 @@ export function registerSenderHandlers(socket: ExtendedSocket) {
     }
 
     // do nothing if client is not a sender
-    if (socket.clientType !== "sender") {
+    if (client.type !== "sender") {
       return
     }
 
     // notify all receivers
-    socket.to(roomID).emit(ServerEvent.SenderLeft)
+    client.broadcast(ServerEvent.SenderLeft)
 
-    Rooms.senderLeave(socket)
+    Rooms.senderLeave(client)
   })
 
-  registerHandler(socket, ServerEvent.SendOffer, (data: SendOfferData) => {
+  client.registerHandler(ServerEvent.SendOffer, (data: SendOfferData) => {
     const { offer, receiverID } = data
 
     // forward offer to receiver
@@ -49,8 +48,7 @@ export function registerSenderHandlers(socket: ExtendedSocket) {
     io.to(receiverID).emit(ServerEvent.OfferSent, resData)
   })
 
-  registerHandler(
-    socket,
+  client.registerHandler(
     ServerEvent.SendIceCandidateToReceiver,
     (data: SendIceCandidateToReceiverData) => {
       const { iceCandidate, receiverID } = data

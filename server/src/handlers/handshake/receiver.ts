@@ -9,33 +9,32 @@ import {
   ServerEvent,
 } from "@webrtc-file-transfer/shared"
 
-import { io } from "@server/."
+import { Client } from "@server/client"
+import { io } from "@server/init"
 import { Rooms } from "@server/rooms"
-import { ExtendedSocket } from "@server/types"
-import { registerHandler } from "@server/utils"
 
-export function registerReceiverHandlers(socket: ExtendedSocket) {
-  registerHandler(socket, ServerEvent.JoinRoom, (data: JoinRoomData) => {
+export function registerReceiverHandlers(client: Client) {
+  client.registerHandler(ServerEvent.JoinRoom, (data: JoinRoomData) => {
     const { roomID } = data
     try {
-      Rooms.receiverJoin(socket, roomID)
+      Rooms.receiverJoin(client, roomID)
     } catch {
       // invalid roomID
-      socket.emit(ServerEvent.RoomNotFound)
+      client.emit(ServerEvent.RoomNotFound)
       return
     }
 
-    // notify receiver
-    socket.emit(ServerEvent.RoomJoined)
+    // notify other receivers
+    client.emit(ServerEvent.RoomJoined)
 
     // notify sender
     const senderID = Rooms.getSenderID(roomID)
-    const resData: ReceiverJoinedData = { receiverID: socket.id }
+    const resData: ReceiverJoinedData = { receiverID: client.id }
     io.to(senderID).emit(ServerEvent.ReceiverJoined, resData)
   })
 
-  registerHandler(socket, "disconnect", () => {
-    const roomID = socket.roomID
+  client.registerHandler("disconnect", () => {
+    const roomID = client._roomID
 
     // do nothing if client is not in a room
     if (!roomID) {
@@ -43,38 +42,37 @@ export function registerReceiverHandlers(socket: ExtendedSocket) {
     }
 
     // do nothing if client is not a receiver
-    if (socket.clientType !== "receiver") {
+    if (client.type !== "receiver") {
       return
     }
 
-    Rooms.receiverLeave(socket)
+    Rooms.receiverLeave(client)
 
     // notify sender
     const senderID = Rooms.getSenderID(roomID)
-    const resData: ReceiverLeftData = { receiverID: socket.id }
+    const resData: ReceiverLeftData = { receiverID: client.id }
     io.to(senderID).emit(ServerEvent.ReceiverLeft, resData)
   })
 
-  registerHandler(socket, ServerEvent.SendAnswer, (data: SendAnswerData) => {
+  client.registerHandler(ServerEvent.SendAnswer, (data: SendAnswerData) => {
     const { answer } = data
 
     // forward to sender
-    const senderID = Rooms.getSenderID(socket.roomID)
-    const resData: AnswerSentData = { answer, receiverID: socket.id }
+    const senderID = Rooms.getSenderID(client.roomID)
+    const resData: AnswerSentData = { answer, receiverID: client.id }
     io.to(senderID).emit(ServerEvent.AnswerSent, resData)
   })
 
-  registerHandler(
-    socket,
+  client.registerHandler(
     ServerEvent.SendIceCandidateToSender,
     (data: SendIceCandidateToSenderData) => {
       const { iceCandidate } = data
 
       // forward to sender
-      const senderID = Rooms.getSenderID(socket.roomID)
+      const senderID = Rooms.getSenderID(client.roomID)
       const resData: IceCandidateSentFromReceiverData = {
         iceCandidate,
-        receiverID: socket.id,
+        receiverID: client.id,
       }
       io.to(senderID).emit(ServerEvent.IceCandidateSentFromReceiver, resData)
     }
