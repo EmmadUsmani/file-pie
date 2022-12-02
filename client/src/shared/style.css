@@ -97,5 +97,6 @@ a {
 
 #footer {
   margin-top: auto;
+  gap: 4px;
   font-size: 16px;
 }
