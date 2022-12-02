@@ -9,6 +9,13 @@ export class ErrorHandler {
     document.querySelector<HTMLParagraphElement>("#error-subtitle-2")
   static _loadingElem = document.querySelector<HTMLDivElement>("#loading")
 
+  static init(): void {
+    window.addEventListener("error", (event) => {
+      ClientLogger.error(event.error)
+      this.displayErrorMessage()
+    })
+  }
+
   static getContentElem(): HTMLDivElement {
     if (!this._contentElem) {
       throw Error("Content element does not exist.")
@@ -54,12 +61,5 @@ export class ErrorHandler {
     this.getLoadingElem().style.display = "none"
     this.getContentElem().style.display = "none"
     this.getErrorElem().style.display = "flex"
-  }
-
-  static init(): void {
-    window.addEventListener("error", (event) => {
-      ClientLogger.error(event.error)
-      this.displayErrorMessage()
-    })
   }
 }

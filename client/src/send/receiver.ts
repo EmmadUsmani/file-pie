@@ -2,7 +2,7 @@ import { ClientID } from "@webrtc-file-transfer/shared"
 
 import {
   FileMetadataMessage,
-  rtcConfig,
+  RTC_CONFIG,
   CHUNK_SIZE,
   ClientLogger,
   DownloadCompleteMessage,
@@ -38,7 +38,7 @@ export class Receiver {
 
   constructor(receiverID: ClientID) {
     this.receiverID = receiverID
-    this.peerConnection = new RTCPeerConnection(rtcConfig)
+    this.peerConnection = new RTCPeerConnection(RTC_CONFIG)
     this.dataChannel = this.peerConnection.createDataChannel(receiverID, {
       ordered: true,
     })

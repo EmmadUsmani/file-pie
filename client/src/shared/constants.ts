@@ -1,11 +1,9 @@
-// TODO: rename to caps case
-export const rtcConfig: RTCConfiguration = {
+export const RTC_CONFIG: RTCConfiguration = {
   iceServers: [
     {
       urls: ["stun:stun1.l.google.com:19302", "stun:stun2.l.google.com:19302"],
     },
   ],
-  // TODO: try prefetching with iceCandidatePoolSize
 }
 /**
  * Safest chunk size for cross browser support.

@@ -1,4 +1,4 @@
-import { rtcConfig } from "@shared/constants"
+import { RTC_CONFIG } from "@shared/constants"
 import { ClientLogger } from "@shared/logger"
 import { DownloadCompleteMessage, FileMetadataMessage } from "@shared/messages"
 
@@ -12,7 +12,7 @@ export class Sender {
   static _chunks: Array<ArrayBuffer> | undefined = undefined
 
   static init(): void {
-    this._peerConnection = new RTCPeerConnection(rtcConfig)
+    this._peerConnection = new RTCPeerConnection(RTC_CONFIG)
     this.getPeerConnection().onicecandidate = (event) =>
       this._onIceCandidate(event)
     this.getPeerConnection().ondatachannel = (event) =>

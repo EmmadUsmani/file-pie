@@ -1,7 +1,8 @@
 import { ServerEvent } from "@webrtc-file-transfer/shared"
 import { io } from "socket.io-client"
 
-type ServerEventListener = (data: any) => void | Promise<void> // TODO: fix any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type ServerEventListener = (data: any) => void | Promise<void>
 
 export class Server {
   static socket = io("/")
