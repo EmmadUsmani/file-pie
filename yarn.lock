@@ -819,6 +819,7 @@ __metadata:
     webpack: ^5.52.1
     webpack-cli: ^4.8.0
     webpack-dev-server: ^4.2.1
+    webrtc-adapter: ^8.2.0
   languageName: unknown
   linkType: soft
 
@@ -7845,7 +7846,6 @@ typescript@^4.4.3:
     prettier: ^2.4.0
     style-loader: ^3.3.1
     typescript: ^4.4.3
-    webrtc-adapter: ^8.2.0
   languageName: unknown
   linkType: soft
 
