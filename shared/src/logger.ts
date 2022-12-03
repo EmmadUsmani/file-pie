@@ -2,15 +2,28 @@ export class Logger {
   static _showDebugLogs = false
 
   static init({ showDebugLogs }: { showDebugLogs?: boolean }) {
-    if (!showDebugLogs) {
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      console.debug = () => {}
-    } else {
-      this._showDebugLogs = showDebugLogs
+    this._showDebugLogs = showDebugLogs ?? false
+  }
+
+  static log(...logs: string[]): void {
+    const log = this._formatLogs(...logs)
+    if (log) {
+      console.log(log)
     }
   }
 
   static debug(...logs: string[]): void {
+    const log = this._formatLogs(...logs)
+    if (log && this._showDebugLogs) {
+      console.debug(log)
+    }
+  }
+
+  static error(err: Error): void {
+    console.error(err)
+  }
+
+  static _formatLogs(...logs: string[]): string | undefined {
     if (!logs || logs.length < 1) {
       return
     }
@@ -18,10 +31,6 @@ export class Logger {
     for (const log of logs.slice(1)) {
       output += `\n${log}`
     }
-    console.debug(output)
-  }
-
-  static error(err: Error): void {
-    console.error(err)
+    return output
   }
 }

@@ -8,5 +8,5 @@ registerHandlers(io)
 
 const port = process.env.PORT ? +process.env.PORT : 3000
 httpServer.listen(port, () => {
-  Logger.debug(`Server started on port ${port}`)
+  Logger.log(`Server started on port ${port}`)
 })
