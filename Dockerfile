@@ -7,8 +7,10 @@ COPY . .
 ENV NODE_ENV=production
 ENV PORT=3000
 
-RUN yarn
-
 EXPOSE 3000
 
-CMD ["yarn", "start"]
+RUN npm install pm2 -g
+RUN yarn
+RUN yarn build
+
+CMD ["pm2-runtime", "./server/build/index.js"]

@@ -7,7 +7,7 @@
     "dev": "(NODE_ENV=development ts-node src/index.ts)",
     "clean": "rm -rf build",
     "build": "tsc && tsc-alias",
-    "start": "(NODE_ENV=production node build/index.js)",
+    "start": "(NODE_ENV=production pm2 start build/index.js --name file-pie)",
     "stop": "pm2 stop file-pie"
   },
   "dependencies": {
