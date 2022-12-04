@@ -1,5 +1,5 @@
 {
-  "name": "@webrtc-file-transfer/client",
+  "name": "@file-pie/client",
   "version": "0.1.0",
   "license": "GPL-3.0",
   "scripts": {
@@ -8,7 +8,7 @@
     "build": "webpack --mode=production"
   },
   "dependencies": {
-    "@webrtc-file-transfer/shared": "0.1.0",
+    "@file-pie/shared": "0.1.0",
     "socket.io-client": "^4.2.0",
     "webrtc-adapter": "^8.2.0"
   },

@@ -8,7 +8,7 @@ import {
   SendIceCandidateToSenderData,
   ServerEvent,
   Logger,
-} from "@webrtc-file-transfer/shared"
+} from "@file-pie/shared"
 
 import { Client } from "@server/client"
 import { io } from "@server/init"

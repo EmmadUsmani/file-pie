@@ -1,4 +1,4 @@
-import { ClientID, Room, RoomID } from "@webrtc-file-transfer/shared"
+import { ClientID, Room, RoomID } from "@file-pie/shared"
 import { v4 as uuidV4 } from "uuid"
 
 import { Client } from "@server/client"

@@ -1,4 +1,4 @@
-import { ClientID } from "@webrtc-file-transfer/shared"
+import { ClientID } from "@file-pie/shared"
 
 import {
   FileMetadataMessage,

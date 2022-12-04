@@ -8,7 +8,7 @@ import {
   ReceiverLeftData,
   RoomCreatedData,
   ServerEvent,
-} from "@webrtc-file-transfer/shared"
+} from "@file-pie/shared"
 
 import { Server, ClientLogger } from "@shared/."
 

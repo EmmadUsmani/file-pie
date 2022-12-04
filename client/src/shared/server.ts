@@ -1,4 +1,4 @@
-import { ServerEvent } from "@webrtc-file-transfer/shared"
+import { ServerEvent } from "@file-pie/shared"
 import { io } from "socket.io-client"
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

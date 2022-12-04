@@ -1,4 +1,4 @@
-import { Logger } from "@webrtc-file-transfer/shared"
+import { Logger } from "@file-pie/shared"
 
 /**
  * Singleton for logging output in both clients (send and receive).

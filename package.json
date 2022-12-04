@@ -1,7 +1,7 @@
 {
-  "name": "webrtc-file-transfer",
+  "name": "file-pie",
   "version": "0.1.0",
-  "repository": "https://github.com/EmmadUsmani/webrtc-file-transfer.git",
+  "repository": "https://github.com/EmmadUsmani/file-pie.git",
   "author": "Emmad Usmani <emmadusmani@berkeley.edu>",
   "license": "GPL-3.0",
   "private": true,
@@ -14,8 +14,8 @@
     "dev": "yarn workspaces foreach -pvi run dev",
     "clean": "yarn workspaces foreach -p run clean",
     "build": "yarn workspaces foreach -ptvi run build",
-    "start": "yarn build && yarn workspace @webrtc-file-transfer/server run start",
-    "stop": "yarn workspace @webrtc-file-transfer/server run stop",
+    "start": "yarn build && yarn workspace @file-pie/server run start",
+    "stop": "yarn workspace @file-pie/server run stop",
     "lint": "yarn prettier . --write && yarn eslint . --fix",
     "lint-nofix": "yarn prettier . --check && yarn eslint ."
   },

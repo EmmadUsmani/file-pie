@@ -1,5 +1,5 @@
 {
-  "name": "@webrtc-file-transfer/server",
+  "name": "@file-pie/server",
   "version": "0.1.0",
   "license": "GPL-3.0",
   "private": true,
@@ -11,7 +11,7 @@
     "stop": "pm2 stop file-pie"
   },
   "dependencies": {
-    "@webrtc-file-transfer/shared": "0.1.0",
+    "@file-pie/shared": "0.1.0",
     "express": "^4.17.1",
     "pm2": "^5.2.2",
     "socket.io": "^4.2.0",

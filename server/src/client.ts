@@ -1,4 +1,4 @@
-import { RoomID, ServerEvent } from "@webrtc-file-transfer/shared"
+import { RoomID, ServerEvent } from "@file-pie/shared"
 import { Socket } from "socket.io"
 
 /**

@@ -1,4 +1,4 @@
-import { Logger } from "@webrtc-file-transfer/shared"
+import { Logger } from "@file-pie/shared"
 
 import { registerHandlers } from "@server/handlers"
 import { httpServer, io } from "@server/init"

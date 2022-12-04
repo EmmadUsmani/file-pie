@@ -1,4 +1,4 @@
-import { RoomID } from "@webrtc-file-transfer/shared"
+import { RoomID } from "@file-pie/shared"
 
 import { getReadableFileSize } from "@shared/."
 

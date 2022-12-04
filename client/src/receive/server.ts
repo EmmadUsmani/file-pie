@@ -5,7 +5,7 @@ import {
   ServerEvent,
   IceCandidateSentFromSenderData,
   OfferSentData,
-} from "@webrtc-file-transfer/shared"
+} from "@file-pie/shared"
 
 import { Server, ClientLogger } from "@shared/."
 

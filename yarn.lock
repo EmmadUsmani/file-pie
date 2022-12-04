@@ -74,6 +74,55 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@file-pie/client@workspace:client":
+  version: 0.0.0-use.local
+  resolution: "@file-pie/client@workspace:client"
+  dependencies:
+    "@file-pie/shared": 0.1.0
+    cross-env: ^7.0.3
+    html-webpack-plugin: ^5.3.2
+    socket.io-client: ^4.2.0
+    ts-loader: ^9.2.5
+    tsconfig-paths-webpack-plugin: ^4.0.0
+    typescript: ^4.4.3
+    webpack: ^5.52.1
+    webpack-cli: ^4.8.0
+    webpack-dev-server: ^4.2.1
+    webrtc-adapter: ^8.2.0
+  languageName: unknown
+  linkType: soft
+
+"@file-pie/server@workspace:server":
+  version: 0.0.0-use.local
+  resolution: "@file-pie/server@workspace:server"
+  dependencies:
+    "@file-pie/shared": 0.1.0
+    "@types/express": ^4.17.13
+    "@types/node": ^16.9.1
+    "@types/uuid": ^8.3.1
+    concurrently: ^6.2.1
+    cross-env: ^7.0.3
+    express: ^4.17.1
+    nodemon: ^2.0.12
+    pm2: ^5.2.2
+    socket.io: ^4.2.0
+    ts-node: ^10.9.1
+    tsc-alias: ^1.7.1
+    tsconfig-paths: ^4.1.0
+    typescript: ^4.4.3
+    uuid: ^8.3.2
+  languageName: unknown
+  linkType: soft
+
+"@file-pie/shared@0.1.0, @file-pie/shared@workspace:shared":
+  version: 0.0.0-use.local
+  resolution: "@file-pie/shared@workspace:shared"
+  dependencies:
+    cross-env: ^7.0.3
+    typescript: ^4.4.3
+  languageName: unknown
+  linkType: soft
+
 "@gar/promisify@npm:^1.0.1":
   version: 1.1.2
   resolution: "@gar/promisify@npm:1.1.2"
@@ -804,55 +853,6 @@ __metadata:
   checksum: 1666c69606581193574fb5f2cd58fececf933f34725261752d44c8097640474903de8bec4076c717d48838cfc8937fccee699ce74e4c880e1c327157757250fa
   languageName: node
   linkType: hard
-
-"@webrtc-file-transfer/client@workspace:client":
-  version: 0.0.0-use.local
-  resolution: "@webrtc-file-transfer/client@workspace:client"
-  dependencies:
-    "@webrtc-file-transfer/shared": 0.1.0
-    cross-env: ^7.0.3
-    html-webpack-plugin: ^5.3.2
-    socket.io-client: ^4.2.0
-    ts-loader: ^9.2.5
-    tsconfig-paths-webpack-plugin: ^4.0.0
-    typescript: ^4.4.3
-    webpack: ^5.52.1
-    webpack-cli: ^4.8.0
-    webpack-dev-server: ^4.2.1
-    webrtc-adapter: ^8.2.0
-  languageName: unknown
-  linkType: soft
-
-"@webrtc-file-transfer/server@workspace:server":
-  version: 0.0.0-use.local
-  resolution: "@webrtc-file-transfer/server@workspace:server"
-  dependencies:
-    "@types/express": ^4.17.13
-    "@types/node": ^16.9.1
-    "@types/uuid": ^8.3.1
-    "@webrtc-file-transfer/shared": 0.1.0
-    concurrently: ^6.2.1
-    cross-env: ^7.0.3
-    express: ^4.17.1
-    nodemon: ^2.0.12
-    pm2: ^5.2.2
-    socket.io: ^4.2.0
-    ts-node: ^10.9.1
-    tsc-alias: ^1.7.1
-    tsconfig-paths: ^4.1.0
-    typescript: ^4.4.3
-    uuid: ^8.3.2
-  languageName: unknown
-  linkType: soft
-
-"@webrtc-file-transfer/shared@0.1.0, @webrtc-file-transfer/shared@workspace:shared":
-  version: 0.0.0-use.local
-  resolution: "@webrtc-file-transfer/shared@workspace:shared"
-  dependencies:
-    cross-env: ^7.0.3
-    typescript: ^4.4.3
-  languageName: unknown
-  linkType: soft
 
 "@xtuc/ieee754@npm:^1.2.0":
   version: 1.2.0
@@ -3041,6 +3041,24 @@ __metadata:
   checksum: f49701feaa6314c8127c3c2f6173cfefff17612f5ed2daaafc6da13b5c91fd43e3b2a58fd0d63f9f94478a501b167615931e7200e31485e320f74a33885a9c74
   languageName: node
   linkType: hard
+
+"file-pie@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "file-pie@workspace:."
+  dependencies:
+    "@typescript-eslint/eslint-plugin": ^4.31.1
+    "@typescript-eslint/parser": ^4.31.1
+    css-loader: ^6.7.2
+    eslint: ^7.32.0
+    eslint-config-prettier: ^8.3.0
+    eslint-import-resolver-typescript: ^2.5.0
+    eslint-plugin-import: ^2.24.2
+    mini-css-extract-plugin: ^2.7.0
+    prettier: ^2.4.0
+    style-loader: ^3.3.1
+    typescript: ^4.4.3
+  languageName: unknown
+  linkType: soft
 
 "file-uri-to-path@npm:2":
   version: 2.0.0
@@ -7830,24 +7848,6 @@ typescript@^4.4.3:
   checksum: 67221eac0f01c35f32235b0b988ed27b7e850d03315050a4432f6dc2ff47b8e0535732dfbe5d9718f6a27d46eddc527ca1465e509ba628fdd4c968013fdacb86
   languageName: node
   linkType: hard
-
-"webrtc-file-transfer@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "webrtc-file-transfer@workspace:."
-  dependencies:
-    "@typescript-eslint/eslint-plugin": ^4.31.1
-    "@typescript-eslint/parser": ^4.31.1
-    css-loader: ^6.7.2
-    eslint: ^7.32.0
-    eslint-config-prettier: ^8.3.0
-    eslint-import-resolver-typescript: ^2.5.0
-    eslint-plugin-import: ^2.24.2
-    mini-css-extract-plugin: ^2.7.0
-    prettier: ^2.4.0
-    style-loader: ^3.3.1
-    typescript: ^4.4.3
-  languageName: unknown
-  linkType: soft
 
 "websocket-driver@npm:>=0.5.1, websocket-driver@npm:^0.7.4":
   version: 0.7.4
